@@ -770,6 +770,8 @@ void MCP_CAN::enableRXBuf0Filters(byte mode){
     }                                                                   // Edit those bits to match
 
     mcp2515_setCANCTRL_Mode(MODE_NORMAL);                               // Return to normal operation
+
+    return
 }
 
 /*********************************************************************************************************
@@ -806,7 +808,9 @@ void MCP_CAN::enableRXBuf1Filters(byte mode){
         mcp2515_modifyRegister(RXB1CTRL, RXM1|RXM0, RXBUFMSK_VLD);      // If mode is RXBUFMSK_VLD
     }                                                                   // Edit those bits to match
 
-    mcp2515_setCANCTRL_Mode(MODE_NORMAL); 
+    mcp2515_setCANCTRL_Mode(MODE_NORMAL);                               // Return to normal operation
+
+    return;
 }
 
 /*********************************************************************************************************
