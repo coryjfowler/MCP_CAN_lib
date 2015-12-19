@@ -99,6 +99,14 @@ public:
     byte checkError(void);                                         /* if something error           */
     INT32U getCanId(void);                                          /* get can id when receive      */
 
+    //------Reception Configuration-----------SEG
+    void enableRXBuf0Filters(byte mode);
+    byte getRXBuf0FilterHit();
+    void enableRXBuf1Filters(byte mode);
+    byte getRXBuf1FilterHit();
+    void setRollover(bool mode);
+    bool getRTR();
+
 //------Error Handaling-------------------GRM
     byte getTxErrors(void);  //
     byte getRxErrors(void);
