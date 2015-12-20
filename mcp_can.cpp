@@ -743,7 +743,7 @@ INT32U MCP_CAN::getCanId(void)
 
 /*********************************************************************************************************
 ** Function name:           enableRXBuf0Filters
-** Description:             This function allows the user to pick an opeation mode for the Recieve buffers
+** Description:             This function allows the user to pick an opeation mode for the recieve buffers
 **                          of the MCP2515. This rule determines which kinds of messages are placed in
 **                          recieve buffer 0.
 **
@@ -759,30 +759,43 @@ void MCP_CAN::enableRXBuf0Filters(byte mode){
     if(mode == RXBUFMSK_ALL){                                           // If mode is RXBUFMSK_ALL
         mcp2515_modifyRegister(RXB0CTRL, RXM1|RXM0, RXBUFMSK_ALL);      // Edit those bits to match
     }
-    else if(mode == RXBUFMSK_EXT){
-        mcp2515_modifyRegister(RXB0CTRL, RXM1|RXM0, RXBUFMSK_EXT);      // If mode is RXBUFMSK_EXT
-    }                                                                   // Edit those bits to match
-    else if(mode == RXBUFMSK_STD){
-        mcp2515_modifyRegister(RXB0CTRL, RXM1|RXM0, RXBUFMSK_STD);      // If mode is RXBUFMSK_STD
-    }                                                                   // Edit those bits to match
-    else if(mode == RXBUFMSK_VLD){
-        mcp2515_modifyRegister(RXB0CTRL, RXM1|RXM0, RXBUFMSK_VLD);      // If mode is RXBUFMSK_VLD
-    }                                                                   // Edit those bits to match
+    else if(mode == RXBUFMSK_EXT){                                      // If mode is RXBUFMSK_EXT
+        mcp2515_modifyRegister(RXB0CTRL, RXM1|RXM0, RXBUFMSK_EXT);      // Edit those bits to match
+    }                                                                   
+    else if(mode == RXBUFMSK_STD){                                      // If mode is RXBUFMSK_STD
+        mcp2515_modifyRegister(RXB0CTRL, RXM1|RXM0, RXBUFMSK_STD);      // Edit those bits to match
+    }                                                                   
+    else if(mode == RXBUFMSK_VLD){                                      // If mode is RXBUFMSK_VLD
+        mcp2515_modifyRegister(RXB0CTRL, RXM1|RXM0, RXBUFMSK_VLD);      // Edit those bits to match
+    }                                                                   
 
     mcp2515_setCANCTRL_Mode(MODE_NORMAL);                               // Return to normal operation
 
-    return
+    return;
 }
 
 /*********************************************************************************************************
 ** Function name:           getRXBuf0FilterHit
-** Description:             when receive something ,u can get the can id!!
+** Description:             This fucntion returns a byte containing the contents of the FILHIT bits
+**                          which indicate which filter allowed the message currently held in Recieve
+**                          buffer 0 through. Each possible return has a macro associated with it
+**                          for easy comparison.
+**
+**                          Return options are as follows:
+**                          RXBUFFIL_HIT0 - Filter 0 allowed the message through.
+**                          RXBUFFIL_HIT1 - Filter 1 allowed the message through.             
 *********************************************************************************************************/
-byte MCP_CAN::getRXBuf0FilterHit(){}
+byte MCP_CAN::getRXBuf0FilterHit(){
+    byte val = mcp2515_readRegister(RXB0CTRL);                          // Get the values in RXB0CTRL
+
+    val = (val & FILHIT0);                                              // Mask out unrelated bits in the register
+
+    return val;                                                         // The remaining bits will match one of the possible output macros
+}
 
 /*********************************************************************************************************
 ** Function name:           enableRXBuf1Filters
-** Description:             This function allows the user to pick an opeation mode for the Recieve buffers
+** Description:             This function allows the user to pick an opeation mode for the recieve buffers
 **                          of the MCP2515. This rule determines which kinds of messages are placed in
 **                          recieve buffer 1.
 **
@@ -798,15 +811,15 @@ void MCP_CAN::enableRXBuf1Filters(byte mode){
     if(mode == RXBUFMSK_ALL){                                           // If mode is RXBUFMSK_ALL
         mcp2515_modifyRegister(RXB1CTRL, RXM1|RXM0, RXBUFMSK_ALL);      // Edit those bits to match
     }
-    else if(mode == RXBUFMSK_EXT){
-        mcp2515_modifyRegister(RXB1CTRL, RXM1|RXM0, RXBUFMSK_EXT);      // If mode is RXBUFMSK_EXT
-    }                                                                   // Edit those bits to match
-    else if(mode == RXBUFMSK_STD){
-        mcp2515_modifyRegister(RXB1CTRL, RXM1|RXM0, RXBUFMSK_STD);      // If mode is RXBUFMSK_STD
-    }                                                                   // Edit those bits to match
-    else if(mode == RXBUFMSK_VLD){
-        mcp2515_modifyRegister(RXB1CTRL, RXM1|RXM0, RXBUFMSK_VLD);      // If mode is RXBUFMSK_VLD
-    }                                                                   // Edit those bits to match
+    else if(mode == RXBUFMSK_EXT){                                      // If mode is RXBUFMSK_EXT
+        mcp2515_modifyRegister(RXB1CTRL, RXM1|RXM0, RXBUFMSK_EXT);      // Edit those bits to match
+    }                                                                   
+    else if(mode == RXBUFMSK_STD){                                      // If mode is RXBUFMSK_STD
+        mcp2515_modifyRegister(RXB1CTRL, RXM1|RXM0, RXBUFMSK_STD);      // Edit those bits to match
+    }                                                                   
+    else if(mode == RXBUFMSK_VLD){                                      // If mode is RXBUFMSK_VLD
+        mcp2515_modifyRegister(RXB1CTRL, RXM1|RXM0, RXBUFMSK_VLD);      // Edit those bits to match
+    }                                                                   
 
     mcp2515_setCANCTRL_Mode(MODE_NORMAL);                               // Return to normal operation
 
@@ -815,21 +828,84 @@ void MCP_CAN::enableRXBuf1Filters(byte mode){
 
 /*********************************************************************************************************
 ** Function name:           getRXBuf1FilterHit
-** Description:             when receive something ,u can get the can id!!
+** Description:             This fucntion returns a byte containing the contents of the FILHIT bits
+**                          which indicate which filter allowed the message currently held in recieve
+**                          buffer 1 through. Each possible return has a macro associated with it
+**                          for easy comparison.
+**
+**                          Return options are as follows:
+**                          RXBUFFIL_HIT0 - Filter 0 allowed the message through.
+**                          RXBUFFIL_HIT1 - Filter 1 allowed the message through.
+**                          RXBUFFIL_HIT2 - Filter 2 allowed the message through.
+**                          RXBUFFIL_HIT3 - Filter 3 allowed the message through.
+**                          RXBUFFIL_HIT4 - Filter 4 allowed the message through.
+**                          RXBUFFIL_HIT5 - Filter 5 allowed the message through.                  
 *********************************************************************************************************/
-byte MCP_CAN::getRXBuf1FilterHit(){}
+byte MCP_CAN::getRXBuf1FilterHit(){
+    byte val = mcp2515_readRegister(RXB1CTRL);                          // Get the values in RXB1CTRL
+
+    val = (val & (FILHIT2|FILHIT1|FILHIT0));                            // Mask out unrelated bits in the register
+
+    return val;                                                         // The remaining bits will match one of the possible output macros
+}
 
 /*********************************************************************************************************
 ** Function name:           setRollover
-** Description:             when receive something ,u can get the can id!!
+** Description:             This function enables or disables the rollover of messages from recieve buffer
+**                          0 to recieve buffer 0.
+**
+**                          Options for mode are as follows:
+**                          true - Enable rollover
+**                          false - Disable rollover
 *********************************************************************************************************/
-void MCP_CAN::setRollover(bool mode){}
+void MCP_CAN::setRollover(bool mode){
+    mcp2515_setCANCTRL_Mode(MODE_CONFIG);                               // Enter Configuration Mode. *WARNING: THIS WILL FLUSH ALL STATUS BUFFERS*
+
+    if(mode == true){                                                   // If mode is true we want enable rollover
+        mcp2515_modifyRegister(RXB0CTRL, BUKT, RXBUF0BUKT_EN);          // Set rollover bit
+    }
+    else if(mode == false){                                             // If mode is false we want to disable rollover
+        mcp2515_modifyRegister(RXB0CTRL, BUKT, RXBUF0BUKT_DIS);         // Clear rollover bit
+    }
+
+    mcp2515_setCANCTRL_Mode(MODE_NORMAL);                               // Return to normal operation
+}
 
 /*********************************************************************************************************
-** Function name:           getRTR
-** Description:             when receive something ,u can get the can id!!
+** Function name:           getBuf0RTR
+** Description:             This function returns a byte containing the contents of the RXRTR bit, which
+**                          indicates whether the current message in recieve buffer 0 is a Remote Transfer
+**                          Request.
+**
+**                          Return options are as follows:
+**                          RXBUFRTR_SET - The message is a Remote Transfer Request
+**                          RXBUFRTR_CLR - The message is a normal transmission
 *********************************************************************************************************/
-bool MCP_CAN::getRTR(){}
+byte MCP_CAN::getBuf0RTR(){
+    byte val = mcp2515_readRegister(RXB0CTRL);                          // Get the values in RXB0CTRL
+
+    val = (val & RXRTR);                                                // Mask out unrelated bits in the register
+
+    return val;                                                         // The remaining bits will match one of the possible output macros
+}
+
+/*********************************************************************************************************
+** Function name:           getBuf0RTR
+** Description:             This function returns a byte containing the contents of the RXRTR bit, which
+**                          indicates whether the current message in recieve buffer 1 is a Remote Transfer
+**                          Request.
+**
+**                          Return options are as follows:
+**                          RXBUFRTR_SET - The message is a Remote Transfer Request
+**                          RXBUFRTR_CLR - The message is a normal transmission
+*********************************************************************************************************/
+byte MCP_CAN::getBuf1RTR(){
+    byte val = mcp2515_readRegister(RXB1CTRL);                          // Get the values in RXB1CTRL
+
+    val = (val & RXRTR);                                                // Mask out unrelated bits in the register
+
+    return val;                                                         // The remaining bits will match one of the possible output macros
+}
 
 
 

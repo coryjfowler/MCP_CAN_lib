@@ -443,6 +443,8 @@
 #define FILHIT0 (1<<0)
 #define FILHIT1 (1<<1)
 #define FILHIT2 (1<<2)
+#define BUKT (1<<2)
+#define RXRTR (1<<3)
 
  /*******************************************************************
  *                  PSRCAN Macros                                   *
@@ -452,3 +454,13 @@
 #define RXBUFMSK_EXT (1<<6)|(0<<5)
 #define RXBUFMSK_STD (0<<6)|(1<<5)
 #define RXBUFMSK_VLD (0<<6)|(0<<5)
+#define RXBUFFIL_HIT5 (1<<2)|(0<<1)|(1<<0)
+#define RXBUFFIL_HIT4 (1<<2)|(0<<1)|(0<<0)
+#define RXBUFFIL_HIT3 (0<<2)|(1<<1)|(1<<0)
+#define RXBUFFIL_HIT2 (0<<2)|(1<<1)|(0<<0)
+#define RXBUFFIL_HIT1 (0<<2)|(0<<1)|(1<<0)
+#define RXBUFFIL_HIT0 (0<<2)|(0<<1)|(0<<0)
+#define RXBUF0BUKT_EN (1<<2)
+#define RXBUF0BUKT_DIS (0<<2)
+#define RXBUFRTR_SET (1<<3)
+#define RXBUFRTR_CLR (0<<3)

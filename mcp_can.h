@@ -105,7 +105,8 @@ public:
     void enableRXBuf1Filters(byte mode);
     byte getRXBuf1FilterHit();
     void setRollover(bool mode);
-    bool getRTR();
+    byte getBuf0RTR();
+    byte getBuf1RTR();
 
 //------Error Handaling-------------------GRM
     byte getTxErrors(void);  //
