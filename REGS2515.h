@@ -443,7 +443,6 @@
 #define FILHIT0 (1<<0)
 #define FILHIT1 (1<<1)
 #define FILHIT2 (1<<2)
-#define BUKT (1<<2)
 #define RXRTR (1<<3)
 
  /*******************************************************************
