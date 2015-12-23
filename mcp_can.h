@@ -111,7 +111,7 @@ public:
     //------Error Handaling-------------------GRM
     byte getTxErrors(void);  //
     byte getRxErrors(void);
-    boolean getErrorFlag(byte bitName);
+    bool getErrorFlag(byte bitName);
     void setErrorFlag(byte bitName, boolean val);
 
 };
