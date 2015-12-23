@@ -99,7 +99,7 @@ public:
     byte checkError(void);                                         /* if something error           */
     INT32U getCanId(void);                                          /* get can id when receive      */
 
-    //------Mashs & Filter Configuration------SEG
+    //------Masks & Filters Configuration------SEG
     void setRXBuf0Filters();
     void setRXBuf1Filters();
 
