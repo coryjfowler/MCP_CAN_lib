@@ -28,7 +28,7 @@
 
 /*********************************************************************************************************
 ** Function name:           mcp2515_reset
-** Descriptions:            Resets the MCP2515, a common command used during "init" and other times
+** Description:             Resets the MCP2515, a common command used during "init" and other times
 *********************************************************************************************************/
 void MCP_CAN::mcp2515_reset(void)                                      
 {
@@ -40,7 +40,7 @@ void MCP_CAN::mcp2515_reset(void)
 
 /*********************************************************************************************************
 ** Function name:           mcp2515_readRegister
-** Descriptions:            Read Register, See (T11-1) for Register names
+** Description:             Read Register, See (T11-1) for Register names
 *********************************************************************************************************/
 byte MCP_CAN::mcp2515_readRegister(const byte address)                                                                     
 {
@@ -57,7 +57,7 @@ byte MCP_CAN::mcp2515_readRegister(const byte address)
 
 /*********************************************************************************************************
 ** Function name:           mcp2515_readRegisterS
-** Descriptions:            just like readRegister but if you keep reading, you get the fallowing registers too :)
+** Description:             just like readRegister but if you keep reading, you get the fallowing registers too :)
 *********************************************************************************************************/
 void MCP_CAN::mcp2515_readRegisterS(const byte address, byte values[], const byte num_of_regs)
 {
@@ -75,7 +75,7 @@ void MCP_CAN::mcp2515_readRegisterS(const byte address, byte values[], const byt
 
 /*********************************************************************************************************
 ** Function name:           mcp2515_setRegister
-** Descriptions:            set register, , See (T11-1) for Register names
+** Description:             set register, , See (T11-1) for Register names
 *********************************************************************************************************/
 void MCP_CAN::mcp2515_setRegister(const byte address, const byte value)
 {
@@ -88,7 +88,7 @@ void MCP_CAN::mcp2515_setRegister(const byte address, const byte value)
 
 /*********************************************************************************************************
 ** Function name:           mcp2515_setRegisterS
-** Descriptions:            just like serRegister but if you keep sending in values, you get the fallowing registers writen too :)
+** Description:             just like serRegister but if you keep sending in values, you get the fallowing registers writen too :)
 *********************************************************************************************************/
 void MCP_CAN::mcp2515_setRegisterS(const byte address, const byte values[], const byte n)
 {
@@ -106,7 +106,7 @@ void MCP_CAN::mcp2515_setRegisterS(const byte address, const byte values[], cons
 
 /*********************************************************************************************************
 ** Function name:           mcp2515_modifyRegister
-** Descriptions:            set bits of one register, reminder: the mask slects whitch bits out of the byte to change, 
+** Description:             set bits of one register, reminder: the mask slects whitch bits out of the byte to change, 
                             the data is the bits you want the changes to be, the mask and data bits line up.
 *********************************************************************************************************/
 void MCP_CAN::mcp2515_modifyRegister(const byte address, const byte mask, const byte data)
@@ -121,7 +121,7 @@ void MCP_CAN::mcp2515_modifyRegister(const byte address, const byte mask, const 
 
 /*********************************************************************************************************
 ** Function name:           mcp2515_readStatus
-** Descriptions:            read mcp2515's Status, 8 very important bits are returned in a byte
+** Description:             read mcp2515's Status, 8 very important bits are returned in a byte
 *********************************************************************************************************/
 byte MCP_CAN::mcp2515_readStatus(void)                             
 {
@@ -136,7 +136,7 @@ byte MCP_CAN::mcp2515_readStatus(void)
 
 /*********************************************************************************************************
 ** Function name:           mcp2515_setCANCTRL_Mode
-** Descriptions:            set control mode
+** Description:             set control mode
 *********************************************************************************************************/
 byte MCP_CAN::mcp2515_setCANCTRL_Mode(const byte newmode)
 {
@@ -157,7 +157,7 @@ byte MCP_CAN::mcp2515_setCANCTRL_Mode(const byte newmode)
 
 /*********************************************************************************************************
 ** Function name:           mcp2515_configRate
-** Descriptions:            set boadrate
+** Description:             set boadrate
 *********************************************************************************************************/
 boolean MCP_CAN::mcp2515_configRate(const byte canSpeed)            
 {
@@ -266,7 +266,7 @@ boolean MCP_CAN::mcp2515_configRate(const byte canSpeed)
 
 /*********************************************************************************************************
 ** Function name:           mcp2515_initCANBuffers
-** Descriptions:            init canbuffers
+** Description:             init canbuffers
 *********************************************************************************************************/
 void MCP_CAN::mcp2515_initCANBuffers(void)
 {
@@ -302,13 +302,13 @@ void MCP_CAN::mcp2515_initCANBuffers(void)
         a2++;
         a3++;
     }
-    mcp2515_setRegister(MCP_RXB0CTRL, 0);
-    mcp2515_setRegister(MCP_RXB1CTRL, 0);
+    mcp2515_setRegister(RXB0CTRL, 0);
+    mcp2515_setRegister(RXB1CTRL, 0);
 }
 
 /*********************************************************************************************************
 ** Function name:           mcp2515_init
-** Descriptions:            initalise the device
+** Description:             initalise the device
 *********************************************************************************************************/
 byte MCP_CAN::mcp2515_init(const byte canSpeed)                      
 {
@@ -339,10 +339,10 @@ byte MCP_CAN::mcp2515_init(const byte canSpeed)
                                                                         /* with std. and ext. identifie */
                                                                         /* rs                           */
                                                                         /* and enable rollover          */
-        mcp2515_modifyRegister(MCP_RXB0CTRL,
+        mcp2515_modifyRegister(RXB0CTRL,
         MCP_RXB_RX_MASK | MCP_RXB_BUKT_MASK,
         MCP_RXB_RX_STDEXT | MCP_RXB_BUKT_MASK );
-        mcp2515_modifyRegister(MCP_RXB1CTRL, MCP_RXB_RX_MASK,
+        mcp2515_modifyRegister(RXB1CTRL, MCP_RXB_RX_MASK,
         MCP_RXB_RX_STDEXT);
                                                                         /* enter normal mode            */
         res = mcp2515_setCANCTRL_Mode(MODE_NORMAL);     
@@ -357,7 +357,7 @@ byte MCP_CAN::mcp2515_init(const byte canSpeed)
 
 /*********************************************************************************************************
 ** Function name:           mcp2515_write_id
-** Descriptions:            write can id
+** Description:             write can id
 *********************************************************************************************************/
 void MCP_CAN::mcp2515_write_id( const byte mcp_addr, const byte ext, const INT32U id )
 {
@@ -388,7 +388,7 @@ void MCP_CAN::mcp2515_write_id( const byte mcp_addr, const byte ext, const INT32
 
 /*********************************************************************************************************
 ** Function name:           mcp2515_read_id
-** Descriptions:            read can id
+** Description:             read can id
 *********************************************************************************************************/
 void MCP_CAN::mcp2515_read_id( const byte mcp_addr, byte* ext, INT32U* id )
 {
@@ -413,7 +413,7 @@ void MCP_CAN::mcp2515_read_id( const byte mcp_addr, byte* ext, INT32U* id )
 
 /*********************************************************************************************************
 ** Function name:           mcp2515_write_canMsg
-** Descriptions:            write msg
+** Description:             write msg
 *********************************************************************************************************/
 void MCP_CAN::mcp2515_write_canMsg( const byte buffer_sidh_addr)
 {
@@ -431,7 +431,7 @@ void MCP_CAN::mcp2515_write_canMsg( const byte buffer_sidh_addr)
 
 /*********************************************************************************************************
 ** Function name:           mcp2515_read_canMsg
-** Descriptions:            read message
+** Description:             read message
 *********************************************************************************************************/
 void MCP_CAN::mcp2515_read_canMsg( const byte buffer_sidh_addr)        /* read can msg                 */
 {
@@ -457,7 +457,7 @@ void MCP_CAN::mcp2515_read_canMsg( const byte buffer_sidh_addr)        /* read c
 
 /*********************************************************************************************************
 ** Function name:           sendMsg
-** Descriptions:            send message
+** Description:             send message
 *********************************************************************************************************/
 void MCP_CAN::mcp2515_start_transmit(const byte mcp_addr)              /* start transmit               */
 {
@@ -466,7 +466,7 @@ void MCP_CAN::mcp2515_start_transmit(const byte mcp_addr)              /* start 
 
 /*********************************************************************************************************
 ** Function name:           sendMsg
-** Descriptions:            send message
+** Description:             send message
 *********************************************************************************************************/
 byte MCP_CAN::mcp2515_getNextFreeTXBuf(byte *txbuf_n)                 /* get Next free txbuf          */
 {
@@ -491,7 +491,7 @@ byte MCP_CAN::mcp2515_getNextFreeTXBuf(byte *txbuf_n)                 /* get Nex
 
 /*********************************************************************************************************
 ** Function name:           set CS
-** Descriptions:            init CS pin and set UNSELECTED
+** Description:             init CS pin and set UNSELECTED
 *********************************************************************************************************/
 MCP_CAN::MCP_CAN(byte _CS)
 {
@@ -502,7 +502,7 @@ MCP_CAN::MCP_CAN(byte _CS)
 
 /*********************************************************************************************************
 ** Function name:           init
-** Descriptions:            init can and set speed
+** Description:             init can and set speed
 *********************************************************************************************************/
 byte MCP_CAN::begin(byte speedset)
 {
@@ -512,7 +512,7 @@ byte MCP_CAN::begin(byte speedset)
 
 /*********************************************************************************************************
 ** Function name:           init_Mask
-** Descriptions:            init canid Masks
+** Description:             init canid Masks
 *********************************************************************************************************/
 void MCP_CAN::init_Mask(byte num, byte ext, INT32U ulData)
 {
@@ -531,14 +531,11 @@ void MCP_CAN::init_Mask(byte num, byte ext, INT32U ulData)
 
 /*********************************************************************************************************
 ** Function name:           init_Filt
-** Descriptions:            init canid filters
+** Description:             init canid filters
 *********************************************************************************************************/
 byte MCP_CAN::init_Filt(byte num, byte ext, INT32U ulData)
 {
     byte res = MCP2515_OK;
-#if DEBUG_MODE
-    Serial.print("Begin to set Filter!!\r\n");
-#endif
 
     mcp2515_setCANCTRL_Mode(MODE_CONFIG);
     
@@ -573,17 +570,13 @@ byte MCP_CAN::init_Filt(byte num, byte ext, INT32U ulData)
     }
     
     mcp2515_setCANCTRL_Mode(MODE_NORMAL);
-
-#if DEBUG_MODE
-    Serial.print("set Filter success!!\r\n");
-#endif
     
     return res;
 }
 
 /*********************************************************************************************************
 ** Function name:           setMsg
-** Descriptions:            set can message, such as dlc, id, dta[] and so on
+** Description:             set can message, such as dlc, id, dta[] and so on
 *********************************************************************************************************/
 byte MCP_CAN::setMsg(INT32U id, byte ext, byte len, byte *pData)
 {
@@ -598,7 +591,7 @@ byte MCP_CAN::setMsg(INT32U id, byte ext, byte len, byte *pData)
 
 /*********************************************************************************************************
 ** Function name:           clearMsg
-** Descriptions:            set all message to zero
+** Description:             set all message to zero
 *********************************************************************************************************/
 byte MCP_CAN::clearMsg()
 {
@@ -615,7 +608,7 @@ byte MCP_CAN::clearMsg()
 
 /*********************************************************************************************************
 ** Function name:           sendMsg
-** Descriptions:            send message
+** Description:             send message
 *********************************************************************************************************/
 byte MCP_CAN::sendMsg()
 {
@@ -650,7 +643,7 @@ byte MCP_CAN::sendMsg()
 
 /*********************************************************************************************************
 ** Function name:           sendMsgBuf
-** Descriptions:            send buf
+** Description:             send buf
 *********************************************************************************************************/
 byte MCP_CAN::sendMsgBuf(INT32U id, byte ext, byte len, byte *buf)
 {
@@ -660,7 +653,7 @@ byte MCP_CAN::sendMsgBuf(INT32U id, byte ext, byte len, byte *buf)
 
 /*********************************************************************************************************
 ** Function name:           readMsg
-** Descriptions:            read message
+** Description:             read message
 *********************************************************************************************************/
 byte MCP_CAN::readMsg()
 {
@@ -689,7 +682,7 @@ byte MCP_CAN::readMsg()
 
 /*********************************************************************************************************
 ** Function name:           readMsgBuf
-** Descriptions:            read message buf
+** Description:             read message buf
 *********************************************************************************************************/
 byte MCP_CAN::readMsgBuf(byte *len, byte buf[])
 {
@@ -703,7 +696,7 @@ byte MCP_CAN::readMsgBuf(byte *len, byte buf[])
 
 /*********************************************************************************************************
 ** Function name:           checkReceive
-** Descriptions:            check if got something
+** Description:             check if got something
 *********************************************************************************************************/
 byte MCP_CAN::checkReceive(void)
 {
@@ -721,7 +714,7 @@ byte MCP_CAN::checkReceive(void)
 
 /*********************************************************************************************************
 ** Function name:           checkError
-** Descriptions:            if something error
+** Description:             if something error
 *********************************************************************************************************/
 byte MCP_CAN::checkError(void)
 {
@@ -739,12 +732,181 @@ byte MCP_CAN::checkError(void)
 
 /*********************************************************************************************************
 ** Function name:           getCanId
-** Descriptions:            when receive something ,u can get the can id!!
+** Description:             when receive something ,u can get the can id!!
 *********************************************************************************************************/
 INT32U MCP_CAN::getCanId(void)
 {
     return m_nID;
 }
+
+//------Reception Configuration-----------SEG
+
+/*********************************************************************************************************
+** Function name:           enableRXBuf0Filters
+** Description:             This function allows the user to pick an opeation mode for the recieve buffers
+**                          of the MCP2515. This rule determines which kinds of messages are placed in
+**                          recieve buffer 0.
+**
+**                          Options for mode are as follows:
+**                          RXBUFMSK_ALL - Disable Mask/Filters (All messages are allowed in RXB0).
+**                          RXBUFMSK_EXT - Allow only valid messages using extended identifiers.
+**                          RXBUFMSK_STD - Allow only valid messages using standard identifiers.
+**                          RXBUFMSK_VLD - Allow all valid messages that match Masks/Filters.
+*********************************************************************************************************/
+void MCP_CAN::enableRXBuf0Filters(byte mode){
+    mcp2515_setCANCTRL_Mode(MODE_CONFIG);                               // Enter Configuration Mode. *WARNING: THIS WILL FLUSH ALL STATUS BUFFERS*
+
+    if(mode == RXBUFMSK_ALL){                                           // If mode is RXBUFMSK_ALL
+        mcp2515_modifyRegister(RXB0CTRL, RXM1|RXM0, RXBUFMSK_ALL);      // Edit those bits to match
+    }
+    else if(mode == RXBUFMSK_EXT){                                      // If mode is RXBUFMSK_EXT
+        mcp2515_modifyRegister(RXB0CTRL, RXM1|RXM0, RXBUFMSK_EXT);      // Edit those bits to match
+    }                                                                   
+    else if(mode == RXBUFMSK_STD){                                      // If mode is RXBUFMSK_STD
+        mcp2515_modifyRegister(RXB0CTRL, RXM1|RXM0, RXBUFMSK_STD);      // Edit those bits to match
+    }                                                                   
+    else if(mode == RXBUFMSK_VLD){                                      // If mode is RXBUFMSK_VLD
+        mcp2515_modifyRegister(RXB0CTRL, RXM1|RXM0, RXBUFMSK_VLD);      // Edit those bits to match
+    }                                                                   
+
+    mcp2515_setCANCTRL_Mode(MODE_NORMAL);                               // Return to normal operation
+
+    return;
+}
+
+/*********************************************************************************************************
+** Function name:           getRXBuf0FilterHit
+** Description:             This fucntion returns a byte containing the contents of the FILHIT bits
+**                          which indicate which filter allowed the message currently held in Recieve
+**                          buffer 0 through. Each possible return has a macro associated with it
+**                          for easy comparison.
+**
+**                          Return options are as follows:
+**                          RXBUFFIL_HIT0 - Filter 0 allowed the message through.
+**                          RXBUFFIL_HIT1 - Filter 1 allowed the message through.             
+*********************************************************************************************************/
+byte MCP_CAN::getRXBuf0FilterHit(){
+    byte val = mcp2515_readRegister(RXB0CTRL);                          // Get the values in RXB0CTRL
+
+    val = (val & FILHIT0);                                              // Mask out unrelated bits in the register
+
+    return val;                                                         // The remaining bits will match one of the possible output macros
+}
+
+/*********************************************************************************************************
+** Function name:           enableRXBuf1Filters
+** Description:             This function allows the user to pick an opeation mode for the recieve buffers
+**                          of the MCP2515. This rule determines which kinds of messages are placed in
+**                          recieve buffer 1.
+**
+**                          Options for mode are as follows:
+**                          RXBUFMSK_ALL - Disable Mask/Filters (All messages are allowed in RXB1).
+**                          RXBUFMSK_EXT - Allow only valid messages using extended identifiers.
+**                          RXBUFMSK_STD - Allow only valid messages using standard identifiers.
+**                          RXBUFMSK_VLD - Allow all valid messages that match Masks/Filters.
+*********************************************************************************************************/
+void MCP_CAN::enableRXBuf1Filters(byte mode){
+    mcp2515_setCANCTRL_Mode(MODE_CONFIG);                               // Enter Configuration Mode. *WARNING: THIS WILL FLUSH ALL STATUS BUFFERS*
+
+    if(mode == RXBUFMSK_ALL){                                           // If mode is RXBUFMSK_ALL
+        mcp2515_modifyRegister(RXB1CTRL, RXM1|RXM0, RXBUFMSK_ALL);      // Edit those bits to match
+    }
+    else if(mode == RXBUFMSK_EXT){                                      // If mode is RXBUFMSK_EXT
+        mcp2515_modifyRegister(RXB1CTRL, RXM1|RXM0, RXBUFMSK_EXT);      // Edit those bits to match
+    }                                                                   
+    else if(mode == RXBUFMSK_STD){                                      // If mode is RXBUFMSK_STD
+        mcp2515_modifyRegister(RXB1CTRL, RXM1|RXM0, RXBUFMSK_STD);      // Edit those bits to match
+    }                                                                   
+    else if(mode == RXBUFMSK_VLD){                                      // If mode is RXBUFMSK_VLD
+        mcp2515_modifyRegister(RXB1CTRL, RXM1|RXM0, RXBUFMSK_VLD);      // Edit those bits to match
+    }                                                                   
+
+    mcp2515_setCANCTRL_Mode(MODE_NORMAL);                               // Return to normal operation
+
+    return;
+}
+
+/*********************************************************************************************************
+** Function name:           getRXBuf1FilterHit
+** Description:             This fucntion returns a byte containing the contents of the FILHIT bits
+**                          which indicate which filter allowed the message currently held in recieve
+**                          buffer 1 through. Each possible return has a macro associated with it
+**                          for easy comparison.
+**
+**                          Return options are as follows:
+**                          RXBUFFIL_HIT0 - Filter 0 allowed the message through.
+**                          RXBUFFIL_HIT1 - Filter 1 allowed the message through.
+**                          RXBUFFIL_HIT2 - Filter 2 allowed the message through.
+**                          RXBUFFIL_HIT3 - Filter 3 allowed the message through.
+**                          RXBUFFIL_HIT4 - Filter 4 allowed the message through.
+**                          RXBUFFIL_HIT5 - Filter 5 allowed the message through.                  
+*********************************************************************************************************/
+byte MCP_CAN::getRXBuf1FilterHit(){
+    byte val = mcp2515_readRegister(RXB1CTRL);                          // Get the values in RXB1CTRL
+
+    val = (val & (FILHIT2|FILHIT1|FILHIT0));                            // Mask out unrelated bits in the register
+
+    return val;                                                         // The remaining bits will match one of the possible output macros
+}
+
+/*********************************************************************************************************
+** Function name:           setRollover
+** Description:             This function enables or disables the rollover of messages from recieve buffer
+**                          0 to recieve buffer 0.
+**
+**                          Options for mode are as follows:
+**                          true - Enable rollover
+**                          false - Disable rollover
+*********************************************************************************************************/
+void MCP_CAN::setRollover(bool mode){
+    mcp2515_setCANCTRL_Mode(MODE_CONFIG);                               // Enter Configuration Mode. *WARNING: THIS WILL FLUSH ALL STATUS BUFFERS*
+
+    if(mode == true){                                                   // If mode is true we want enable rollover
+        mcp2515_modifyRegister(RXB0CTRL, BUKT, RXBUF0BUKT_EN);          // Set rollover bit
+    }
+    else if(mode == false){                                             // If mode is false we want to disable rollover
+        mcp2515_modifyRegister(RXB0CTRL, BUKT, RXBUF0BUKT_DIS);         // Clear rollover bit
+    }
+
+    mcp2515_setCANCTRL_Mode(MODE_NORMAL);                               // Return to normal operation
+}
+
+/*********************************************************************************************************
+** Function name:           getBuf0RTR
+** Description:             This function returns a byte containing the contents of the RXRTR bit, which
+**                          indicates whether the current message in recieve buffer 0 is a Remote Transfer
+**                          Request.
+**
+**                          Return options are as follows:
+**                          RXBUFRTR_SET - The message is a Remote Transfer Request
+**                          RXBUFRTR_CLR - The message is a normal transmission
+*********************************************************************************************************/
+byte MCP_CAN::getBuf0RTR(){
+    byte val = mcp2515_readRegister(RXB0CTRL);                          // Get the values in RXB0CTRL
+
+    val = (val & RXRTR);                                                // Mask out unrelated bits in the register
+
+    return val;                                                         // The remaining bits will match one of the possible output macros
+}
+
+/*********************************************************************************************************
+** Function name:           getBuf0RTR
+** Description:             This function returns a byte containing the contents of the RXRTR bit, which
+**                          indicates whether the current message in recieve buffer 1 is a Remote Transfer
+**                          Request.
+**
+**                          Return options are as follows:
+**                          RXBUFRTR_SET - The message is a Remote Transfer Request
+**                          RXBUFRTR_CLR - The message is a normal transmission
+*********************************************************************************************************/
+byte MCP_CAN::getBuf1RTR(){
+    byte val = mcp2515_readRegister(RXB1CTRL);                          // Get the values in RXB1CTRL
+
+    val = (val & RXRTR);                                                // Mask out unrelated bits in the register
+
+    return val;                                                         // The remaining bits will match one of the possible output macros
+}
+
 
 
 
