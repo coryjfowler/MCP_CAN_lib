@@ -31,10 +31,7 @@
 #define INT32U unsigned long
 #endif
 
-#ifndef INT8U
-#define INT8U byte
-#endif
-
+#define CSpin 10
 // if print debug information
 #define DEBUG_MODE 0
 
@@ -307,9 +304,11 @@
 #define MCP_RXBUF_0 (MCP_RXB0SIDH)
 #define MCP_RXBUF_1 (MCP_RXB1SIDH)
 
+
+//GRM: Removed
 //#define SPICS 10
-#define MCP2515_SELECT()   digitalWrite(SPICS, LOW)
-#define MCP2515_UNSELECT() digitalWrite(SPICS, HIGH)
+//#define MCP2515_SELECT()   digitalWrite(SPICS, LOW)
+//#define MCP2515_UNSELECT() digitalWrite(SPICS, HIGH)
 
 #define MCP2515_OK         (0)
 #define MCP2515_FAIL       (1)
@@ -348,17 +347,15 @@
 #define CAN_500KBPS  12
 #define CAN_1000KBPS 13
 
-#define CAN_OK         (0)
-#define CAN_FAILINIT   (1)
-#define CAN_FAILTX     (2)
-#define CAN_MSGAVAIL   (3)
-#define CAN_NOMSG      (4)
-#define CAN_CTRLERROR  (5)
-#define CAN_GETTXBFTIMEOUT (6)
-#define CAN_SENDMSGTIMEOUT (7)
-#define CAN_FAIL       (0xff)
-
-#define CAN_MAX_CHAR_IN_MESSAGE (8)
+#define CAN_OK              0
+#define CAN_FAILINIT        1
+#define CAN_FAILTX          2
+#define CAN_MSGAVAIL        3
+#define CAN_NOMSG           4
+#define CAN_CTRLERROR       5
+#define CAN_GETTXBFTIMEOUT  6
+#define CAN_SENDMSGTIMEOUT  7
+#define CAN_FAIL            0xff
 
 #endif
 /*********************************************************************************************************
