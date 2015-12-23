@@ -100,13 +100,13 @@ public:
     INT32U getCanId(void);                                          /* get can id when receive      */
 
     //------Reception Configuration-----------SEG
-    void enableRXBuf0Filters(byte mode);
-    byte getRXBuf0FilterHit();
-    void enableRXBuf1Filters(byte mode);
-    byte getRXBuf1FilterHit();
-    void setRollover(bool mode);
-    byte getBuf0RTR();
-    byte getBuf1RTR();
+    void enableRXBuf0Filters(byte mode);            // Set the filtering mode for the recieve buffer 0
+    byte getRXBuf0FilterHit();                      // Returns a value for which filter allowed the message in buffer 0
+    void enableRXBuf1Filters(byte mode);            // Set the filtering mode for the recieve buffer 1
+    byte getRXBuf1FilterHit();                      // Returns a value for which filter allowed the message in buffer 1
+    void setRollover(bool mode);                    // Enables or disables rollover in the recieve buffers
+    byte getBuf0RTR();                              // Returns a value representing if the RTR bits are set in recieve buffer 0
+    byte getBuf1RTR();                              // Returns a value representing if the RTR bits are set in recieve buffer 1
 
     //------Error Handaling-------------------GRM
     byte getTxErrors(void);  //
