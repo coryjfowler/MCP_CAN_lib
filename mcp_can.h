@@ -108,7 +108,7 @@ public:
     byte getBuf0RTR();
     byte getBuf1RTR();
 
-//------Error Handaling-------------------GRM
+    //------Error Handaling-------------------GRM
     byte getTxErrors(void);  //
     byte getRxErrors(void);
     boolean getErrorFlag(byte bitName);
