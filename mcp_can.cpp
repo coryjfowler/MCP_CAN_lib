@@ -272,8 +272,8 @@ void MCP_CAN::mcp2515_initCANBuffers(void)
 {
     byte i, a1, a2, a3;
     
-    byte std = 0;               
-    byte ext = 1;
+    bool std = 0;               
+    bool ext = 1;
     INT32U ulMask = 0x00, ulFilt = 0x00;
 
 
@@ -359,7 +359,7 @@ byte MCP_CAN::mcp2515_init(const byte canSpeed)
 ** Function name:           mcp2515_write_id
 ** Description:             write can id
 *********************************************************************************************************/
-void MCP_CAN::mcp2515_write_id( const byte mcp_addr, const byte ext, const INT32U id )
+void MCP_CAN::mcp2515_write_id( const byte mcp_addr, const bool ext, const INT32U id )
 {
     uint16_t canid;
     byte tbufdata[4];
@@ -508,70 +508,6 @@ byte MCP_CAN::begin(byte speedset)
 {
     SPI.begin();
     return mcp2515_init(speedset);
-}
-
-/*********************************************************************************************************
-** Function name:           init_Mask
-** Description:             init canid Masks
-*********************************************************************************************************/
-void MCP_CAN::init_Mask(byte num, byte ext, INT32U ulData)
-{
-    mcp2515_setCANCTRL_Mode(MODE_CONFIG);
-
-    if (num == 0){
-        mcp2515_write_id(MCP_RXM0SIDH, ext, ulData);
-
-    }
-    else if(num == 1){
-        mcp2515_write_id(MCP_RXM1SIDH, ext, ulData);
-    }
-    
-    mcp2515_setCANCTRL_Mode(MODE_NORMAL);
-}
-
-/*********************************************************************************************************
-** Function name:           init_Filt
-** Description:             init canid filters
-*********************************************************************************************************/
-byte MCP_CAN::init_Filt(byte num, byte ext, INT32U ulData)
-{
-    byte res = MCP2515_OK;
-
-    mcp2515_setCANCTRL_Mode(MODE_CONFIG);
-    
-    switch( num )
-    {
-        case 0:
-        mcp2515_write_id(MCP_RXF0SIDH, ext, ulData);
-        break;
-
-        case 1:
-        mcp2515_write_id(MCP_RXF1SIDH, ext, ulData);
-        break;
-
-        case 2:
-        mcp2515_write_id(MCP_RXF2SIDH, ext, ulData);
-        break;
-
-        case 3:
-        mcp2515_write_id(MCP_RXF3SIDH, ext, ulData);
-        break;
-
-        case 4:
-        mcp2515_write_id(MCP_RXF4SIDH, ext, ulData);
-        break;
-
-        case 5:
-        mcp2515_write_id(MCP_RXF5SIDH, ext, ulData);
-        break;
-
-        default:
-        res = MCP2515_FAIL;
-    }
-    
-    mcp2515_setCANCTRL_Mode(MODE_NORMAL);
-    
-    return res;
 }
 
 /*********************************************************************************************************
@@ -900,6 +836,7 @@ byte MCP_CAN::getBuf0RTR(){
 **                          RXBUFRTR_CLR - The message is a normal transmission
 *********************************************************************************************************/
 byte MCP_CAN::getBuf1RTR(){
+    
     byte val = mcp2515_readRegister(RXB1CTRL);                          // Get the values in RXB1CTRL
 
     val = (val & RXRTR);                                                // Mask out unrelated bits in the register
@@ -908,7 +845,96 @@ byte MCP_CAN::getBuf1RTR(){
 }
 
 
+//------Masks and Filters Configuration-----------Cory J. Fowler (modified by SEG)
 
+/*********************************************************************************************************
+** Function name:           setRXFilt
+** Description:             This function sets the mask registers for use. The mask registers indicate
+**                          which bits of incoming messages should be subjected to the filters.
+**
+**                          Options are as follows:
+**                          For num:
+**                              0-5 - The mask to change is Mask 0-5
+**                          For extended:
+**                              false - Do not apply the data to the extended bits, clear all extended bits
+**                              true - Apply the data to the extended bits
+**                          For maskBits:
+**                              Pass an unsigned long filled with the bytes for the mask. The extended
+**                              identifier low byte is the lowest byte and the standard identifier high byte
+**                              is the highest.
+**                              NOTE: The upper 3 bits are unused
+*********************************************************************************************************/
+void MCP_CAN::setRXFilt(int num, bool extended, INT32U filtBits){
+    mcp2515_setCANCTRL_Mode(MODE_CONFIG);
+    
+    switch(num)
+    {
+        case 0:
+        mcp2515_write_id(RXF0SIDH, extended, filtBits);
+        break;
+
+        case 1:
+        mcp2515_write_id(RXF1SIDH, extended, filtBits);
+        break;
+
+        case 2:
+        mcp2515_write_id(RXF2SIDH, extended, filtBits);
+        break;
+
+        case 3:
+        mcp2515_write_id(RXF3SIDH, extended, filtBits);
+        break;
+
+        case 4:
+        mcp2515_write_id(RXF4SIDH, extended, filtBits);
+        break;
+
+        case 5:
+        mcp2515_write_id(RXF5SIDH, extended, filtBits);
+        break;
+
+        default:
+        break;
+    }
+    
+    mcp2515_setCANCTRL_Mode(MODE_NORMAL);
+    
+    return;
+}
+
+/*********************************************************************************************************
+** Function name:           setRXMask
+** Description:             This function sets the mask registers for use. The mask registers indicate
+**                          which bits of incoming messages should be subjected to the filters.
+**
+**                          Options are as follows:
+**                          For num:
+**                              0 - The mask to change is Mask 0
+**                              1 - The mask to change is Mask 1
+**                          For extended:
+**                              false - Do not apply the data to the extended bits, clear all extended bits
+**                              true - Apply the data to the extended bits
+**                          For maskBits:
+**                              Pass an unsigned long filled with the bytes for the mask. The extended
+**                              identifier low byte is the lowest byte and the standard identifier high byte
+**                              is the highest.
+**                              NOTE: The upper 3 bits are unused
+*********************************************************************************************************/
+void MCP_CAN::setRXMask(int num, bool extended, INT32U maskBits){
+    mcp2515_setCANCTRL_Mode(MODE_CONFIG);
+
+    if (num == 0){
+        mcp2515_write_id(RXM0SIDH, extended, maskBits);
+
+    }
+    else if(num == 1){
+        mcp2515_write_id(RXM1SIDH, extended, maskBits);
+    }
+    
+    mcp2515_setCANCTRL_Mode(MODE_NORMAL);
+
+    return;
+}
 
 
 
