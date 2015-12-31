@@ -67,7 +67,7 @@ class MCP_CAN
     byte mcp2515_init(const byte canSpeed);                           /* mcp2515init                  */
 
     void mcp2515_write_id( const byte mcp_addr,                        /* write can id                 */
-                               const byte ext,
+                               const bool ext,
                                const INT32U id );
 
     void mcp2515_read_id( const byte mcp_addr,                        /* read can id                  */
@@ -91,8 +91,6 @@ class MCP_CAN
 public:
     MCP_CAN(byte _CS);
     byte begin(byte speedset);                              /* init can                     */
-    void init_Mask(byte num, byte ext, INT32U ulData);           /* init Masks                   */
-    byte init_Filt(byte num, byte ext, INT32U ulData);           /* init filters                 */
     byte sendMsgBuf(INT32U id, byte ext, byte len, byte *buf);  /* send buf                     */
     byte readMsgBuf(byte *len, byte *buf);                       /* read buf                     */
     byte checkReceive(void);                                       /* if something received        */
@@ -107,6 +105,10 @@ public:
     void setRollover(bool mode);                    // Enables or disables rollover in the recieve buffers
     byte getBuf0RTR();                              // Returns a value representing if the RTR bits are set in recieve buffer 0
     byte getBuf1RTR();                              // Returns a value representing if the RTR bits are set in recieve buffer 1
+
+    //------Masks & Filters Configuration------SEG
+    void setRXFilt(int num, bool extended, INT32U filtBits);
+    void setRXMask(int num, bool extended, INT32U maskBits);
 
     //------Error Handaling-------------------GRM
     byte getTxErrors(void);  //
