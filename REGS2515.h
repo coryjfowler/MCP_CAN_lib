@@ -4,14 +4,16 @@
  *********************************************************************
  *   Filename:       2515REGS.h                                      *
  *   Date:           06/17/03                                        *
- *   File Version:   1.00 (Beta)                                     *
+ *   File Version:   1.1                                             *
  *********************************************************************
  *   Functions:                                                      *
- *               Header file                                         *
+ *   This defs file is for MCP2515 Regeter names ONLY.				 *
+ *	 If They they are named in the Datasheet they go here            *
  *********************************************************************
  *   Revision History:                                               *
- *    06/17/03 Updated from MCP2510.inc which was for the 756 board  *
- *    Unoffical Entry for EFLG Masks by GABRIEL						 *
+ *    06/17/03 1.1 													 *
+ *       Updated from MCP2510.inc which was for the 756 board        *
+ *       Unoffical Entry for EFLG Masks by GABRIEL			     	 *
  *********************************************************************/
 
 
