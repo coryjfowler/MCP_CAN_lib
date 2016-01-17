@@ -865,40 +865,40 @@ byte MCP_CAN::getBuf1RTR(){
 **                              NOTE: The upper 3 bits are unused
 *********************************************************************************************************/
 void MCP_CAN::setRXFilt(int num, bool extended, INT32U filtBits){
-    mcp2515_setCANCTRL_Mode(MODE_CONFIG);
+    mcp2515_setCANCTRL_Mode(MODE_CONFIG);                               // Enter Configuration Mode. *WARNING: THIS WILL FLUSH ALL STATUS BUFFERS*
     
     switch(num)
     {
-        case 0:
-        mcp2515_write_id(RXF0SIDH, extended, filtBits);
+        case 0:                                                         // If the filter we want to change is 0
+        mcp2515_write_id(RXF0SIDH, extended, filtBits);                 // Write the data to the proper register
         break;
 
-        case 1:
-        mcp2515_write_id(RXF1SIDH, extended, filtBits);
+        case 1:                                                         // If the filter we want to change is 1
+        mcp2515_write_id(RXF1SIDH, extended, filtBits);                 // Write the data to the proper register
         break;
 
-        case 2:
-        mcp2515_write_id(RXF2SIDH, extended, filtBits);
+        case 2:                                                         // If the filter we want to change is 2
+        mcp2515_write_id(RXF2SIDH, extended, filtBits);                 // Write the data to the proper register
         break;
 
-        case 3:
-        mcp2515_write_id(RXF3SIDH, extended, filtBits);
+        case 3:                                                         // If the filter we want to change is 3
+        mcp2515_write_id(RXF3SIDH, extended, filtBits);                 // Write the data to the proper register
         break;
 
-        case 4:
-        mcp2515_write_id(RXF4SIDH, extended, filtBits);
+        case 4:                                                         // If the filter we want to change is 4
+        mcp2515_write_id(RXF4SIDH, extended, filtBits);                 // Write the data to the proper register
         break;
 
-        case 5:
-        mcp2515_write_id(RXF5SIDH, extended, filtBits);
+        case 5:                                                         // If the filter we want to change is 5
+        mcp2515_write_id(RXF5SIDH, extended, filtBits);                 // Write the data to the proper register
         break;
 
         default:
         break;
     }
     
-    mcp2515_setCANCTRL_Mode(MODE_NORMAL);
-    
+    mcp2515_setCANCTRL_Mode(MODE_NORMAL);                               // Return to normal operation
+
     return;
 }
 
@@ -921,19 +921,19 @@ void MCP_CAN::setRXFilt(int num, bool extended, INT32U filtBits){
 **                              NOTE: The upper 3 bits are unused
 *********************************************************************************************************/
 void MCP_CAN::setRXMask(int num, bool extended, INT32U maskBits){
-    mcp2515_setCANCTRL_Mode(MODE_CONFIG);
+    mcp2515_setCANCTRL_Mode(MODE_CONFIG);                               // Enter Configuration Mode. *WARNING: THIS WILL FLUSH ALL STATUS BUFFERS*
 
-    if (num == 0){
-        mcp2515_write_id(RXM0SIDH, extended, maskBits);
+    if (num == 0){                                                      // If the mask we want to change is 0
+        mcp2515_write_id(RXM0SIDH, extended, maskBits);                 // Write the data to the proper register
 
     }
-    else if(num == 1){
-        mcp2515_write_id(RXM1SIDH, extended, maskBits);
+    else if(num == 1){                                                  // If the mask we want to change is 1
+        mcp2515_write_id(RXM1SIDH, extended, maskBits);                 // Write the data to the proper register
     }
     
     mcp2515_setCANCTRL_Mode(MODE_NORMAL);
 
-    return;
+    return;                                                             // Return to normal operation
 }
 
 
