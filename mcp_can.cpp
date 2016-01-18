@@ -936,6 +936,74 @@ void MCP_CAN::setRXMask(int num, bool extended, INT32U maskBits){
     return;                                                             // Return to normal operation
 }
 
+//------Interrupt Configuration-----------SEG
+
+/*********************************************************************************************************
+** Function name:           enableInt
+** Description:             This function enables the various sources for interrupts on the interrupt pin
+**
+**                          Options for intBits are as follows:
+**                          MERRE - Enables the message error interrupt
+**                          WAKIE - Enables the wake interrupt
+**                          ERRIE - Enables the error interrupt
+**                          TX2IE - Enables the transmit buffer 2 empty interrupt
+**                          TX1IE - Enables the transmit buffer 1 empty interrupt
+**                          TX0IE - Enables the transmit buffer 0 empty interrupt
+**                          RX1IE - Enables the recieve buffer 1 full interrupt
+**                          RX0IE - Enables the recieve buffer 0 full interrupt
+**                          Or any combinations of the above combined via OR.
+**                          Ex: (MERRE|TX1IE|RX0IE) - message error, transmit 1 empty, and recieve 0 full
+*********************************************************************************************************/
+void MCP_CAN::enableInt(byte intBits){
+    mcp2515_setRegister(CANINTE, intBits);                              // Set the value of the interrupt register to match wanted interrupts
+}
+
+/*********************************************************************************************************
+** Function name:           getInt
+** Description:             This function returns a 3 bit value representing which interrupt triggered
+**                          the interrupt pin.
+**
+**                          Return options are as follows:
+**                          NOI - No interrupt flags are enabled
+**                          ERR - Error interrupt toggled pin
+**                          WAK - Wake interrupt toggled pin
+**                          TX0 - Transmit 0 interrupt toggled pin
+**                          TX1 - Transmit 1 interrupt toggled pin
+**                          TX2 - Transmit 2 interrupt toggled pin
+**                          RX0 - Recieve 0 interrupt toggled pin
+**                          RX1 - Recieve 1 interrupt toggled pin
+**                          Note: If multiple sources toggle interrupt, you will read the code from the
+**                          top of this list to the bottom, and as each are cleared a new value will be
+**                          take its place.
+*********************************************************************************************************/
+byte MCP_CAN::getInt(){
+    byte val = mcp2515_readRegister(CANSTAT);                           // Get the value of the register containing the ICOD values
+
+    val = ((val & (ICOD2|ICOD1|ICOD0)) >> 1);                           // Mask out and shift the bits we want
+
+    return val;                                                         // The bits of val will match one of the possible output macros
+}
+
+/*********************************************************************************************************
+** Function name:           clearInt
+** Description:             This function clears an interrupt, so that the interrupt pin will return to
+**                          being high. This must be done after responding to the interrupt to move on
+**                          to the next interrupt source or return to normal operation.
+**
+**                          Options for intBit are as follows:
+**                          MERRF - Clear message error interrupt
+**                          WAKIF - Clear wake interrupt
+**                          ERRIF - Clear error interrupt
+**                          TX2IF - Clear transmit buffer 2 empty interrupt
+**                          TX1IF - Clear transmit buffer 1 empty interrupt
+**                          TX0IF - Clear trasnmit buffer 0 empty interrupt
+**                          RX1IF - Clear recieve buffer 1 full interrupt
+**                          RX0IF - Clear recieve buffer 0 full interrupt
+*********************************************************************************************************/
+void MCP_CAN::clearInt(int intBit){
+    mcp2515_modifyRegister(CANINTF, intBit, 0x00);                      // Clear the bit representing that interrupt being toggled
+}
+
 
 
 

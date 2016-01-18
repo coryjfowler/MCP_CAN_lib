@@ -363,11 +363,25 @@
 
 #define RXM0 (1<<6)
 #define RXM1 (1<<5)
+
 #define FILHIT0 (1<<0)
 #define FILHIT1 (1<<1)
 #define FILHIT2 (1<<2)
+
 #define RXRTR (1<<3)
 
+#define NOI (0<<2|0<<1|0<<0)
+#define ERR (0<<2|0<<1|1<<0)
+#define WAK (0<<2|1<<1|0<<0)
+#define TX0 (0<<2|1<<1|1<<0)
+#define TX1 (1<<2|0<<1|0<<0)
+#define TX2 (1<<2|0<<1|1<<0)
+#define RX0 (1<<2|1<<1|0<<0)
+#define RX1 (1<<2|1<<1|1<<0)
+
+#define ICOD1 (1<<3)
+#define ICOD2 (1<<2)
+#define ICOD0 (1<<1)
  /*******************************************************************
  *                  MCPCAN Macros                                   *
  *******************************************************************/
