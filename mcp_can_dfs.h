@@ -31,7 +31,7 @@
 #define INT32U unsigned long
 #endif
 
-#define CSpin 10
+//#define CSpin 10 //default is 10, redefined at MCP_CAN constructor
 // if print debug information
 #define DEBUG_MODE 0
 

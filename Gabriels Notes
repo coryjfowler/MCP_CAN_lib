@@ -1,0 +1,24 @@
+
+>Removed old checkError(); method
+
+
+Questions for Steven:
+
+	how to make a branch and pull it black into our main branch
+
+	SendMsgBuf returns a byte without a "return" stament
+
+     MCP_CAN::getCanRTR   why the "MCP_CAN::"
+
+
+
+
+
+
+
+Jobs:
+
+    RTR bit: implement it into normal system
+
+    MCP_CAN: how is the CS pin managed?
+

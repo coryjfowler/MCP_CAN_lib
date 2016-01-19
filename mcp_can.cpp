@@ -359,7 +359,7 @@ byte MCP_CAN::mcp2515_init(const byte canSpeed)
 ** Function name:           mcp2515_write_id
 ** Description:             write can id
 *********************************************************************************************************/
-void MCP_CAN::mcp2515_write_id( const byte mcp_addr, const bool ext, const INT32U id )
+void MCP_CAN::mcp2515_write_id(const byte mcp_addr, const bool ext, const INT32U id )
 {
     uint16_t canid;
     byte tbufdata[4];
@@ -390,7 +390,7 @@ void MCP_CAN::mcp2515_write_id( const byte mcp_addr, const bool ext, const INT32
 ** Function name:           mcp2515_read_id
 ** Description:             read can id
 *********************************************************************************************************/
-void MCP_CAN::mcp2515_read_id( const byte mcp_addr, byte* ext, INT32U* id )
+void MCP_CAN::mcp2515_read_id(const byte mcp_addr, byte* ext, INT32U* id )
 {
     byte tbufdata[4];
 
@@ -415,16 +415,18 @@ void MCP_CAN::mcp2515_read_id( const byte mcp_addr, byte* ext, INT32U* id )
 ** Function name:           mcp2515_write_canMsg
 ** Description:             write msg
 *********************************************************************************************************/
-void MCP_CAN::mcp2515_write_canMsg( const byte buffer_sidh_addr)
+void MCP_CAN::mcp2515_write_canMsg(const byte buffer_sidh_addr)
 {
     byte mcp_addr;
     mcp_addr = buffer_sidh_addr;
-    mcp2515_setRegisterS(mcp_addr+5, m_nDta, m_nDlc );                  /* write data bytes             */
+    mcp2515_setRegisterS(mcp_addr+5, m_nDta, m_nDlc );                  /* write data bytes, m_nDlc is
+                                                                         used to tell setRegisterS how many*/
+
     if ( m_nRtr == 1)                                                   /* if RTR set bit in byte       */
     {
         m_nDlc |= MCP_RTR_MASK;  
     }
-    mcp2515_setRegister((mcp_addr+4), m_nDlc );                        /* write the RTR and DLC        */
+    mcp2515_setRegister((mcp_addr+4), m_nDlc );                        /* write the RTR and DLC (mcp_addr+4) = TXBnCTRL +1 +4 = TXBnDLC */
     mcp2515_write_id(mcp_addr, m_nExtFlg, m_nID );                     /* write CAN id                 */
 
 }
@@ -433,7 +435,7 @@ void MCP_CAN::mcp2515_write_canMsg( const byte buffer_sidh_addr)
 ** Function name:           mcp2515_read_canMsg
 ** Description:             read message
 *********************************************************************************************************/
-void MCP_CAN::mcp2515_read_canMsg( const byte buffer_sidh_addr)        /* read can msg                 */
+void MCP_CAN::mcp2515_read_canMsg(const byte buffer_sidh_addr)        /* read can msg                 */
 {
     byte mcp_addr, ctrl;
 
@@ -456,8 +458,8 @@ void MCP_CAN::mcp2515_read_canMsg( const byte buffer_sidh_addr)        /* read c
 }
 
 /*********************************************************************************************************
-** Function name:           sendMsg
-** Description:             send message
+** Function name:           mcp2515_start_transmit
+** Description:             Tells the MCP2515 to begin transmission of the message we put in the buffer
 *********************************************************************************************************/
 void MCP_CAN::mcp2515_start_transmit(const byte mcp_addr)              /* start transmit               */
 {
@@ -465,8 +467,8 @@ void MCP_CAN::mcp2515_start_transmit(const byte mcp_addr)              /* start 
 }
 
 /*********************************************************************************************************
-** Function name:           sendMsg
-** Description:             send message
+** Function name:           mcp2515_getNextFreeTXBuf
+** Description:             finds the next TX buffer out of the three to use i guess
 *********************************************************************************************************/
 byte MCP_CAN::mcp2515_getNextFreeTXBuf(byte *txbuf_n)                 /* get Next free txbuf          */
 {
@@ -490,13 +492,13 @@ byte MCP_CAN::mcp2515_getNextFreeTXBuf(byte *txbuf_n)                 /* get Nex
 }
 
 /*********************************************************************************************************
-** Function name:           set CS
+** Function name:           MCP_CAN
 ** Description:             init CS pin and set UNSELECTED
 *********************************************************************************************************/
 MCP_CAN::MCP_CAN(byte _CS)
 {
-    //CSpin = _CS;
-    pinMode(10, OUTPUT);
+    CSpin = _CS;
+    pinMode(CSpin, OUTPUT);
     digitalWrite(CSpin, HIGH);
 }
 
@@ -511,14 +513,15 @@ byte MCP_CAN::begin(byte speedset)
 }
 
 /*********************************************************************************************************
-** Function name:           setMsg
+** Function name:           send
 ** Description:             set can message, such as dlc, id, dta[] and so on
 *********************************************************************************************************/
-byte MCP_CAN::setMsg(INT32U id, byte ext, byte len, byte *pData)
+byte MCP_CAN::setMsg(INT32U id, byte ext, byte rtr, byte len, byte *pData)
 {
     int i = 0;
     m_nExtFlg = ext;
     m_nID     = id;
+    m_nRtr    = rtr;
     m_nDlc    = len;
     for(i = 0; i<8; i++)  //8 bytes in message
     m_nDta[i] = *(pData+i);
@@ -581,9 +584,9 @@ byte MCP_CAN::sendMsg()
 ** Function name:           sendMsgBuf
 ** Description:             send buf
 *********************************************************************************************************/
-byte MCP_CAN::sendMsgBuf(INT32U id, byte ext, byte len, byte *buf)
+byte MCP_CAN::sendMsgBuf(INT32U id, byte ext, byte rtr, byte len, byte *buf)
 {
-    setMsg(id, ext, len, buf);
+    setMsg(id, ext, rtr, len, buf);
     sendMsg();
 }
 
@@ -648,23 +651,6 @@ byte MCP_CAN::checkReceive(void)
     }
 }
 
-/*********************************************************************************************************
-** Function name:           checkError
-** Description:             if something error
-*********************************************************************************************************/
-byte MCP_CAN::checkError(void)
-{
-    byte eflg = mcp2515_readRegister(MCP_EFLG);
-
-    if ( eflg & MCP_EFLG_ERRORMASK ) 
-    {
-        return CAN_CTRLERROR;
-    }
-    else 
-    {
-        return CAN_OK;
-    }
-}
 
 /*********************************************************************************************************
 ** Function name:           getCanId
@@ -940,6 +926,13 @@ void MCP_CAN::setRXMask(int num, bool extended, INT32U maskBits){
 
 
 
+
+
+//!!!!!!!!!!!!!!!!GABRIEL MARIA FUNCTION FOR RTR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+bool MCP_CAN::getCanRTR(void)
+{
+    return (bool)m_nRtr;
+}
 
 
 //!!!!!!!!!!!!!!!!GABRIEL MARIA FUNCTIONS FOR ERRORS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
