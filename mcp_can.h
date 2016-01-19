@@ -89,10 +89,15 @@ public:
     byte getBuf0RTR();                              // Returns a value representing if the RTR bits are set in recieve buffer 0
     byte getBuf1RTR();                              // Returns a value representing if the RTR bits are set in recieve buffer 1
 
-    //------Masks & Filters Configuration------SEG
+    //------Masks & Filters Configuration-----SEG
     void setRXFilt(int num, bool extended, INT32U filtBits);
     void setRXMask(int num, bool extended, INT32U maskBits);
 
+    //------Interrupt Configuration-----------SEG
+    void enableInt(byte intBits);
+    byte getInt();
+    void clearInt(int intBit);
+    
     //------Error Handaling-------------------GRM
     byte getTxErrors(void);  //
     byte getRxErrors(void);
