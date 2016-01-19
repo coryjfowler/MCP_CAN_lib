@@ -31,10 +31,7 @@
 #define INT32U unsigned long
 #endif
 
-#ifndef INT8U
-#define INT8U byte
-#endif
-
+//#define CSpin 10 //default is 10, redefined at MCP_CAN constructor
 // if print debug information
 #define DEBUG_MODE 0
 
@@ -307,9 +304,11 @@
 #define MCP_RXBUF_0 (MCP_RXB0SIDH)
 #define MCP_RXBUF_1 (MCP_RXB1SIDH)
 
+
+//GRM: Removed
 //#define SPICS 10
-#define MCP2515_SELECT()   digitalWrite(SPICS, LOW)
-#define MCP2515_UNSELECT() digitalWrite(SPICS, HIGH)
+//#define MCP2515_SELECT()   digitalWrite(SPICS, LOW)
+//#define MCP2515_UNSELECT() digitalWrite(SPICS, HIGH)
 
 #define MCP2515_OK         (0)
 #define MCP2515_FAIL       (1)
@@ -348,17 +347,59 @@
 #define CAN_500KBPS  12
 #define CAN_1000KBPS 13
 
-#define CAN_OK         (0)
-#define CAN_FAILINIT   (1)
-#define CAN_FAILTX     (2)
-#define CAN_MSGAVAIL   (3)
-#define CAN_NOMSG      (4)
-#define CAN_CTRLERROR  (5)
-#define CAN_GETTXBFTIMEOUT (6)
-#define CAN_SENDMSGTIMEOUT (7)
-#define CAN_FAIL       (0xff)
+#define CAN_OK              0
+#define CAN_FAILINIT        1
+#define CAN_FAILTX          2
+#define CAN_MSGAVAIL        3
+#define CAN_NOMSG           4
+#define CAN_CTRLERROR       5
+#define CAN_GETTXBFTIMEOUT  6
+#define CAN_SENDMSGTIMEOUT  7
+#define CAN_FAIL            0xff
 
-#define CAN_MAX_CHAR_IN_MESSAGE (8)
+/*******************************************************************
+ *                  Bits                                           *
+ *******************************************************************/
+
+#define RXM0 (1<<6)
+#define RXM1 (1<<5)
+
+#define FILHIT0 (1<<0)
+#define FILHIT1 (1<<1)
+#define FILHIT2 (1<<2)
+
+#define RXRTR (1<<3)
+
+#define NOI (0<<2|0<<1|0<<0)
+#define ERR (0<<2|0<<1|1<<0)
+#define WAK (0<<2|1<<1|0<<0)
+#define TX0 (0<<2|1<<1|1<<0)
+#define TX1 (1<<2|0<<1|0<<0)
+#define TX2 (1<<2|0<<1|1<<0)
+#define RX0 (1<<2|1<<1|0<<0)
+#define RX1 (1<<2|1<<1|1<<0)
+
+#define ICOD1 (1<<3)
+#define ICOD2 (1<<2)
+#define ICOD0 (1<<1)
+ /*******************************************************************
+ *                  MCPCAN Macros                                   *
+ *******************************************************************/
+
+#define RXBUFMSK_ALL (1<<6)|(1<<5)
+#define RXBUFMSK_EXT (1<<6)|(0<<5)
+#define RXBUFMSK_STD (0<<6)|(1<<5)
+#define RXBUFMSK_VLD (0<<6)|(0<<5)
+#define RXBUFFIL_HIT5 (1<<2)|(0<<1)|(1<<0)
+#define RXBUFFIL_HIT4 (1<<2)|(0<<1)|(0<<0)
+#define RXBUFFIL_HIT3 (0<<2)|(1<<1)|(1<<0)
+#define RXBUFFIL_HIT2 (0<<2)|(1<<1)|(0<<0)
+#define RXBUFFIL_HIT1 (0<<2)|(0<<1)|(1<<0)
+#define RXBUFFIL_HIT0 (0<<2)|(0<<1)|(0<<0)
+#define RXBUF0BUKT_EN (1<<2)
+#define RXBUF0BUKT_DIS (0<<2)
+#define RXBUFRTR_SET (1<<3)
+#define RXBUFRTR_CLR (0<<3)
 
 #endif
 /*********************************************************************************************************

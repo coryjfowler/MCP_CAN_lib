@@ -20,6 +20,7 @@ readMsgBuf	KEYWORD2
 checkReceive	KEYWORD2
 checkError	KEYWORD2
 getCanId	KEYWORD2
+getCanRTR	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
