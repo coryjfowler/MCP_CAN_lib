@@ -1,3 +1,6 @@
+This version has been modified to allow for zero-length (viz. header-only) CAN messages.
+These are used with the RTR bit set when querying a CAN network for the CAN_IDs of other modules.
+
 Sub-Development branch was copied to Master on June 30th, 2016.
 ==============
 

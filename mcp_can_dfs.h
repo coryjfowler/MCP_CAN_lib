@@ -462,6 +462,9 @@
 
 #define CAN_MAX_CHAR_IN_MESSAGE (8)
 
+#define CAN_RTR_FLAG     0x40000000
+#define CAN_EXT_HDR_FLAG 0x80000000
+
 #endif
 /*********************************************************************************************************
   END FILE
