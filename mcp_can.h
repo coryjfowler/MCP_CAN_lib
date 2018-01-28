@@ -113,6 +113,7 @@ public:
     INT8U setMode(INT8U opMode);                                        // Set operational mode
     INT8U sendMsgBuf(INT32U id, INT8U ext, INT8U len, INT8U *buf);      // Send message to transmit buffer
     INT8U sendMsgBuf(INT32U id, INT8U len, INT8U *buf);                 // Send message to transmit buffer
+    INT8U readMsgBuf(INT32U *id, INT8U *ext, INT8U * rtr, INT8U *len, INT8U *buf);   // Read message from receive buffer
     INT8U readMsgBuf(INT32U *id, INT8U *ext, INT8U *len, INT8U *buf);   // Read message from receive buffer
     INT8U readMsgBuf(INT32U *id, INT8U *len, INT8U *buf);               // Read message from receive buffer
     INT8U checkReceive(void);                                           // Check for received data
