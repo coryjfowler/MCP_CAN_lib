@@ -1130,6 +1130,25 @@ INT8U MCP_CAN::readMsg()
 ** Function name:           readMsgBuf
 ** Descriptions:            Public function, Reads message from receive buffer.
 *********************************************************************************************************/
+INT8U MCP_CAN::readMsgBuf(INT32U *id, INT8U *ext, INT8U *rtr, INT8U *len, INT8U buf[])
+{
+    if(readMsg() == CAN_NOMSG)
+	return CAN_NOMSG;
+	
+    *id  = m_nID;
+    *len = m_nDlc;
+    *ext = m_nExtFlg;
+    *rtr = m_nRtr;
+    for(int i = 0; i<m_nDlc; i++)
+        buf[i] = m_nDta[i];
+
+    return CAN_OK;
+}
+
+/*********************************************************************************************************
+** Function name:           readMsgBuf
+** Descriptions:            Public function, Reads message from receive buffer.
+*********************************************************************************************************/
 INT8U MCP_CAN::readMsgBuf(INT32U *id, INT8U *ext, INT8U *len, INT8U buf[])
 {
     if(readMsg() == CAN_NOMSG)
