@@ -470,6 +470,10 @@
 
 #define CAN_MAX_CHAR_IN_MESSAGE (8)
 
+#define CAN_IS_EXTENDED       0x80000000
+#define CAN_IS_REMOTE_REQUEST 0x40000000
+#define CAN_EXTENDED_ID       0x1FFFFFFF
+
 #endif
 /*********************************************************************************************************
   END FILE
