@@ -1,11 +1,11 @@
-﻿/*
+/*
   mcp_can.h
   2012 Copyright (c) Seeed Technology Inc.  All right reserved.
-  2017 Copyright (c) Cory J. Fowler  All Rights Reserved.
+  2016 Copyright (c) Cory J. Fowler  All Rights Reserved.
 
   Author:Loovee
   Contributor: Cory J. Fowler
-  2017-09-25
+  2016-07-01
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
   License as published by the Free Software Foundation; either
@@ -111,12 +111,10 @@ public:
     INT8U init_Mask(INT8U num, INT32U ulData);                          // Initilize Mask(s)
     INT8U init_Filt(INT8U num, INT8U ext, INT32U ulData);               // Initilize Filter(s)
     INT8U init_Filt(INT8U num, INT32U ulData);                          // Initilize Filter(s)
-	void setSleepWakeup(INT8U enable);                                    // Enable or disable the wake up interrupt (If disabled the MCP2515 will not be woken up by CAN bus activity)
+	void setSleepWakeup(INT8U enable);                                  // Enable or disable the wake up interrupt (If disabled the MCP2515 will not be woken up by CAN bus activity)
     INT8U setMode(INT8U opMode);                                        // Set operational mode
     INT8U sendMsgBuf(INT32U id, INT8U ext, INT8U len, INT8U *buf);      // Send message to transmit buffer
     INT8U sendMsgBuf(INT32U id, INT8U len, INT8U *buf);                 // Send message to transmit buffer
-    INT8U sendRtrMsgBuf(INT32U id, INT8U ext, INT8U len, INT8U *buf);   // Send remote request message to transmit buffer
-    INT8U sendRtrMsgBuf(INT32U id, INT8U len, INT8U *buf);              // Send remote request message to transmit buffer
     INT8U readMsgBuf(INT32U *id, INT8U *ext, INT8U *len, INT8U *buf);   // Read message from receive buffer
     INT8U readMsgBuf(INT32U *id, INT8U *len, INT8U *buf);               // Read message from receive buffer
     INT8U checkReceive(void);                                           // Check for received data
@@ -126,11 +124,6 @@ public:
     INT8U errorCountTX(void);                                           // Get error count
     INT8U enOneShotTX(void);                                            // Enable one-shot transmission
     INT8U disOneShotTX(void);                                           // Disable one-shot transmission
-    INT8U abortTX(void);                                                // Abort queued transmission(s)
-    INT8U setGPO(INT8U data);                                           // Sets GPO
-    INT8U getGPI(void);                                                 // Reads GPI
-
-    INT8U getRemoteRequestFlag(void);                                   //Read Rtr from last message
 };
 
 #endif
