@@ -124,6 +124,8 @@ public:
     INT8U errorCountTX(void);                                           // Get error count
     INT8U enOneShotTX(void);                                            // Enable one-shot transmission
     INT8U disOneShotTX(void);                                           // Disable one-shot transmission
+
+    bool isRequestMessage();
 };
 
 #endif

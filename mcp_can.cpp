@@ -731,7 +731,7 @@ void MCP_CAN::mcp2515_write_canMsg( const INT8U buffer_sidh_addr)
     mcp2515_setRegisterS(mcp_addr+5, m_nDta, m_nDlc );                  /* write data bytes             */
 	
     if ( m_nRtr == 1)                                                   /* if RTR set bit in byte       */
-        m_nDlc |= MCP_RTR_MASK;  
+        m_nDlc = m_nDlc | MCP_RTR_MASK;
 
     mcp2515_setRegister((mcp_addr+4), m_nDlc );                         /* write the RTR and DLC        */
     mcp2515_write_id(mcp_addr, m_nExtFlg, m_nID );                      /* write CAN id                 */
@@ -1290,6 +1290,9 @@ INT8U MCP_CAN::disOneShotTX(void)
         return CAN_OK;
 }
 
+bool MCP_CAN::isRequestMessage(){
+  return m_nRtr;
+}
 /*********************************************************************************************************
   END FILE
 *********************************************************************************************************/
