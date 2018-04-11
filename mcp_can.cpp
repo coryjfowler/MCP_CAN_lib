@@ -770,7 +770,7 @@ void MCP_CAN::mcp2515_read_canMsg( const INT8U buffer_sidh_addr)        /* read 
     ctrl = mcp2515_readRegister( mcp_addr-1 );
     m_nDlc = mcp2515_readRegister( mcp_addr+4 );
 
-    if (ctrl & 0x08)
+    if (ctrl & MCP_RTR_MASK)
         m_nRtr = 1;
     else
         m_nRtr = 0;
@@ -1147,7 +1147,7 @@ INT8U MCP_CAN::sendMsgBuf(INT32U id, INT8U len, INT8U *buf)
     if((id & 0x80000000) == 0x80000000)
         ext = 1;
  
-    if((id & 0x40000000) == 0x40000000)
+    if((id & MCP_RTR_MASK) == MCP_RTR_MASK)
         rtr = 1;
         
     setMsg(id, rtr, ext, len, buf);
@@ -1215,7 +1215,7 @@ INT8U MCP_CAN::readMsgBuf(INT32U *id, INT8U *len, INT8U buf[])
         m_nID |= 0x80000000;
 
     if (m_nRtr)
-        m_nID |= 0x40000000;
+        m_nID |= MCP_RTR_MASK;
 	
     *id  = m_nID;
     *len = m_nDlc;
@@ -1344,6 +1344,25 @@ INT8U MCP_CAN::getGPI(void)
     return (res >> 3);
 }
 
+/*********************************************************************************************************
+** Function name:           sendRtrMsgBuf
+** Descriptions:            Public function, Send message in buf with RTR flag set
+*********************************************************************************************************/
+INT8U MCP_CAN::sendRtrMsgBuf(unsigned long id, INT8U ext, INT8U len, INT8U* buf)  {
+  return sendMsgBuf(id | MCP_RTR_MASK, ext, len, buf);
+}
+
+/*********************************************************************************************************
+** Function name:           sendRtrMsgBuf
+** Descriptions:            Public function, Send message in buf with RTR flag set
+*********************************************************************************************************/
+INT8U MCP_CAN::sendRtrMsgBuf(unsigned long id, INT8U len, INT8U* buf)  {
+  return sendMsgBuf( id | MCP_RTR_MASK, len, buf);
+}
+
+INT8U MCP_CAN::getRemoteRequestFlag(void)  {
+  return m_nRtr;
+}
 /*********************************************************************************************************
   END FILE
 *********************************************************************************************************/
