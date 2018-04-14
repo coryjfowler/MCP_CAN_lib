@@ -1,0 +1,9 @@
+compile:
+  libraries: ~
+  platforms:
+    - uno
+
+unittest:
+  libraries: ~
+  platforms:
+    - uno
