@@ -27,12 +27,13 @@
 #include "mcp_can_dfs.h"
 #define MAX_CHAR_IN_MESSAGE 8
 
+extern SPIClass SPI_MCP;
+
 class MCP_CAN
 {
     private:
     
-    INT8U   m_nExtFlg;                                                  // Identifier Type
-                                                                        // Extended (29 bit) or Standard (11 bit)
+    INT8U   m_nExtFlg;                                                  // Identifier // Extended (29 bit) or Standard (11 bit)
     INT32U  m_nID;                                                      // CAN ID
     INT8U   m_nDlc;                                                     // Data Length Code
     INT8U   m_nDta[MAX_CHAR_IN_MESSAGE];                            	// Data array
