@@ -24,6 +24,8 @@ Using the setMode() function the sketch can now put the protocol controller into
 
 User can enable and disable (default) One-Shot transmission mode from the sketch using enOneShotTX() or disOneShotTX() respectively.
 
+To wake up from CAN bus activity while in sleep mode enable the wake up interrupt with setSleepWakeup(1). Passing 0 will disable the wakeup interrupt (default).
+
 Installation
 ==============
 Copy this into the "[.../MySketches/]libraries/" folder and restart the Arduino editor.

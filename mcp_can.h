@@ -1,11 +1,11 @@
 /*
   mcp_can.h
   2012 Copyright (c) Seeed Technology Inc.  All right reserved.
-  2017 Copyright (c) Cory J. Fowler  All Rights Reserved.
+  2016 Copyright (c) Cory J. Fowler  All Rights Reserved.
 
   Author:Loovee
   Contributor: Cory J. Fowler
-  2017-09-25
+  2016-07-01
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
   License as published by the Free Software Foundation; either
@@ -71,7 +71,8 @@ class MCP_CAN
 
     INT8U mcp2515_readStatus(void);                                     // Read MCP2515 Status
     INT8U mcp2515_setCANCTRL_Mode(const INT8U newmode);                 // Set mode
-    INT8U mcp2515_configRate(const INT8U canSpeed,                      // Set baud rate
+	INT8U mcp2515_requestNewMode(const INT8U newmode);                  // Set mode
+    INT8U mcp2515_configRate(const INT8U canSpeed,                      // Set baudrate
                              const INT8U canClock);
                              
     INT8U mcp2515_init(const INT8U canIDMode,                           // Initialize Controller
@@ -105,11 +106,12 @@ class MCP_CAN
 
 public:
     MCP_CAN(INT8U _CS);
-    INT8U begin(INT8U idmodeset, INT8U speedset, INT8U clockset);       // Initialize controller parameters
-    INT8U init_Mask(INT8U num, INT8U ext, INT32U ulData);               // Initialize Mask(s)
-    INT8U init_Mask(INT8U num, INT32U ulData);                          // Initialize Mask(s)
-    INT8U init_Filt(INT8U num, INT8U ext, INT32U ulData);               // Initialize Filter(s)
-    INT8U init_Filt(INT8U num, INT32U ulData);                          // Initialize Filter(s)
+    INT8U begin(INT8U idmodeset, INT8U speedset, INT8U clockset);       // Initilize controller prameters
+    INT8U init_Mask(INT8U num, INT8U ext, INT32U ulData);               // Initilize Mask(s)
+    INT8U init_Mask(INT8U num, INT32U ulData);                          // Initilize Mask(s)
+    INT8U init_Filt(INT8U num, INT8U ext, INT32U ulData);               // Initilize Filter(s)
+    INT8U init_Filt(INT8U num, INT32U ulData);                          // Initilize Filter(s)
+	void setSleepWakeup(INT8U enable);                                  // Enable or disable the wake up interrupt (If disabled the MCP2515 will not be woken up by CAN bus activity)
     INT8U setMode(INT8U opMode);                                        // Set operational mode
     INT8U sendMsgBuf(INT32U id, INT8U ext, INT8U len, INT8U *buf);      // Send message to transmit buffer
     INT8U sendMsgBuf(INT32U id, INT8U len, INT8U *buf);                 // Send message to transmit buffer
@@ -122,9 +124,8 @@ public:
     INT8U errorCountTX(void);                                           // Get error count
     INT8U enOneShotTX(void);                                            // Enable one-shot transmission
     INT8U disOneShotTX(void);                                           // Disable one-shot transmission
-    INT8U abortTX(void);                                                // Abort queued transmission(s)
-    INT8U setGPO(INT8U data);                                           // Sets GPO
-    INT8U getGPI(void);                                                 // Reads GPI
+
+    bool isRequestMessage();
 };
 
 #endif

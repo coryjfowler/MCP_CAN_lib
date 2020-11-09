@@ -1,11 +1,11 @@
 /*
   mcp_can_dfs.h
   2012 Copyright (c) Seeed Technology Inc.  All right reserved.
-  2017 Copyright (c) Cory J. Fowler  All Rights Reserved.
+  2014 Copyright (c) Cory J. Fowler  All Rights Reserved.
 
   Author:Loovee
   Contributor: Cory J. Fowler
-  2017-09-25
+  2014-1-16
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
   License as published by the Free Software Foundation; either
@@ -37,7 +37,7 @@
 #endif
 
 // if print debug information
-#define DEBUG_MODE 1
+// #define DEBUG_MODE 1
 
 /*
  *   Begin mt
@@ -88,12 +88,6 @@
 #define MCP_EFLG_EWARN      (1<<0)
 #define MCP_EFLG_ERRORMASK  (0xF8)                                      /* 5 MS-Bits                    */
 
-#define MCP_BxBFS_MASK    0x30
-#define MCP_BxBFE_MASK    0x0C
-#define MCP_BxBFM_MASK    0x03
-
-#define MCP_BxRTS_MASK    0x38
-#define MCP_BxRTSM_MASK   0x07
 
 /*
  *   Define MCP2515 register addresses
@@ -110,8 +104,6 @@
 #define MCP_RXF2SIDL    0x09
 #define MCP_RXF2EID8    0x0A
 #define MCP_RXF2EID0    0x0B
-#define MCP_BFPCTRL     0x0C
-#define MCP_TXRTSCTRL   0x0D
 #define MCP_CANSTAT     0x0E
 #define MCP_CANCTRL     0x0F
 #define MCP_RXF3SIDH    0x10
@@ -151,10 +143,10 @@
 #define MCP_RXB1SIDH    0x71
 
 
-#define MCP_TX_INT          0x1C                                    /* Enable all transmit interrup ts  */
-#define MCP_TX01_INT        0x0C                                    /* Enable TXB0 and TXB1 interru pts */
-#define MCP_RX_INT          0x03                                    /* Enable receive interrupts        */
-#define MCP_NO_INT          0x00                                    /* Disable all interrupts           */
+#define MCP_TX_INT          0x1C                                    // Enable all transmit interrup ts
+#define MCP_TX01_INT        0x0C                                    // Enable TXB0 and TXB1 interru pts
+#define MCP_RX_INT          0x03                                    // Enable receive interrupts
+#define MCP_NO_INT          0x00                                    // Disable all interrupts
 
 #define MCP_TX01_MASK       0x14
 #define MCP_TX_MASK        0x54
@@ -249,155 +241,155 @@
 /*
  *  Speed 8M
  */
-#define MCP_8MHz_1000kBPS_CFG1 (0x00)  
-#define MCP_8MHz_1000kBPS_CFG2 (0xC0)  /* Enabled SAM bit     */
-#define MCP_8MHz_1000kBPS_CFG3 (0x80)  /* Sample point at 75% */
+#define MCP_8MHz_1000kBPS_CFG1 (0x00)
+#define MCP_8MHz_1000kBPS_CFG2 (0x80)
+#define MCP_8MHz_1000kBPS_CFG3 (0x80)
 
 #define MCP_8MHz_500kBPS_CFG1 (0x00)
-#define MCP_8MHz_500kBPS_CFG2 (0xD1)   /* Enabled SAM bit     */
-#define MCP_8MHz_500kBPS_CFG3 (0x81)   /* Sample point at 75% */
+#define MCP_8MHz_500kBPS_CFG2 (0x90)
+#define MCP_8MHz_500kBPS_CFG3 (0x82)
 
-#define MCP_8MHz_250kBPS_CFG1 (0x80)   /* Increased SJW       */
-#define MCP_8MHz_250kBPS_CFG2 (0xE5)   /* Enabled SAM bit     */
-#define MCP_8MHz_250kBPS_CFG3 (0x83)   /* Sample point at 75% */
+#define MCP_8MHz_250kBPS_CFG1 (0x00)
+#define MCP_8MHz_250kBPS_CFG2 (0xB1)
+#define MCP_8MHz_250kBPS_CFG3 (0x85)
 
-#define MCP_8MHz_200kBPS_CFG1 (0x80)   /* Increased SJW       */
-#define MCP_8MHz_200kBPS_CFG2 (0xF6)   /* Enabled SAM bit     */
-#define MCP_8MHz_200kBPS_CFG3 (0x84)   /* Sample point at 75% */
+#define MCP_8MHz_200kBPS_CFG1 (0x00)
+#define MCP_8MHz_200kBPS_CFG2 (0xB4)
+#define MCP_8MHz_200kBPS_CFG3 (0x86)
 
-#define MCP_8MHz_125kBPS_CFG1 (0x81)   /* Increased SJW       */
-#define MCP_8MHz_125kBPS_CFG2 (0xE5)   /* Enabled SAM bit     */
-#define MCP_8MHz_125kBPS_CFG3 (0x83)   /* Sample point at 75% */
+#define MCP_8MHz_125kBPS_CFG1 (0x01)
+#define MCP_8MHz_125kBPS_CFG2 (0xB1)
+#define MCP_8MHz_125kBPS_CFG3 (0x85)
 
-#define MCP_8MHz_100kBPS_CFG1 (0x81)   /* Increased SJW       */
-#define MCP_8MHz_100kBPS_CFG2 (0xF6)   /* Enabled SAM bit     */
-#define MCP_8MHz_100kBPS_CFG3 (0x84)   /* Sample point at 75% */
+#define MCP_8MHz_100kBPS_CFG1 (0x01)
+#define MCP_8MHz_100kBPS_CFG2 (0xB4)
+#define MCP_8MHz_100kBPS_CFG3 (0x86)
 
-#define MCP_8MHz_80kBPS_CFG1 (0x84)    /* Increased SJW       */
-#define MCP_8MHz_80kBPS_CFG2 (0xD3)    /* Enabled SAM bit     */
-#define MCP_8MHz_80kBPS_CFG3 (0x81)    /* Sample point at 75% */
+#define MCP_8MHz_80kBPS_CFG1 (0x01)
+#define MCP_8MHz_80kBPS_CFG2 (0xBF)
+#define MCP_8MHz_80kBPS_CFG3 (0x87)
 
-#define MCP_8MHz_50kBPS_CFG1 (0x84)    /* Increased SJW       */
-#define MCP_8MHz_50kBPS_CFG2 (0xE5)    /* Enabled SAM bit     */
-#define MCP_8MHz_50kBPS_CFG3 (0x83)    /* Sample point at 75% */
+#define MCP_8MHz_50kBPS_CFG1 (0x03)
+#define MCP_8MHz_50kBPS_CFG2 (0xB4)
+#define MCP_8MHz_50kBPS_CFG3 (0x86)
 
-#define MCP_8MHz_40kBPS_CFG1 (0x84)    /* Increased SJW       */
-#define MCP_8MHz_40kBPS_CFG2 (0xF6)    /* Enabled SAM bit     */
-#define MCP_8MHz_40kBPS_CFG3 (0x84)    /* Sample point at 75% */
+#define MCP_8MHz_40kBPS_CFG1 (0x03)
+#define MCP_8MHz_40kBPS_CFG2 (0xBF)
+#define MCP_8MHz_40kBPS_CFG3 (0x87)
 
-#define MCP_8MHz_33k3BPS_CFG1 (0x85)   /* Increased SJW       */
-#define MCP_8MHz_33k3BPS_CFG2 (0xF6)   /* Enabled SAM bit     */
-#define MCP_8MHz_33k3BPS_CFG3 (0x84)   /* Sample point at 75% */
+#define MCP_8MHz_33k3BPS_CFG1 (0x47)
+#define MCP_8MHz_33k3BPS_CFG2 (0xE2)
+#define MCP_8MHz_33k3BPS_CFG3 (0x85)
 
-#define MCP_8MHz_31k25BPS_CFG1 (0x87)  /* Increased SJW       */
-#define MCP_8MHz_31k25BPS_CFG2 (0xE5)  /* Enabled SAM bit     */
-#define MCP_8MHz_31k25BPS_CFG3 (0x83)  /* Sample point at 75% */
+#define MCP_8MHz_31k25BPS_CFG1 (0x07)
+#define MCP_8MHz_31k25BPS_CFG2 (0xA4)
+#define MCP_8MHz_31k25BPS_CFG3 (0x84)
 
-#define MCP_8MHz_20kBPS_CFG1 (0x89)    /* Increased SJW       */
-#define MCP_8MHz_20kBPS_CFG2 (0xF6)    /* Enabled SAM bit     */
-#define MCP_8MHz_20kBPS_CFG3 (0x84)    /* Sample point at 75% */
+#define MCP_8MHz_20kBPS_CFG1 (0x07)
+#define MCP_8MHz_20kBPS_CFG2 (0xBF)
+#define MCP_8MHz_20kBPS_CFG3 (0x87)
 
-#define MCP_8MHz_10kBPS_CFG1 (0x93)    /* Increased SJW       */
-#define MCP_8MHz_10kBPS_CFG2 (0xF6)    /* Enabled SAM bit     */
-#define MCP_8MHz_10kBPS_CFG3 (0x84)    /* Sample point at 75% */
+#define MCP_8MHz_10kBPS_CFG1 (0x0F)
+#define MCP_8MHz_10kBPS_CFG2 (0xBF)
+#define MCP_8MHz_10kBPS_CFG3 (0x87)
 
-#define MCP_8MHz_5kBPS_CFG1 (0xA7)     /* Increased SJW       */
-#define MCP_8MHz_5kBPS_CFG2 (0xF6)     /* Enabled SAM bit     */
-#define MCP_8MHz_5kBPS_CFG3 (0x84)     /* Sample point at 75% */
+#define MCP_8MHz_5kBPS_CFG1 (0x1F)
+#define MCP_8MHz_5kBPS_CFG2 (0xBF)
+#define MCP_8MHz_5kBPS_CFG3 (0x87)
 
 /*
  *  speed 16M
  */
 #define MCP_16MHz_1000kBPS_CFG1 (0x00)
-#define MCP_16MHz_1000kBPS_CFG2 (0xCA)
-#define MCP_16MHz_1000kBPS_CFG3 (0x81)    /* Sample point at 75% */
+#define MCP_16MHz_1000kBPS_CFG2 (0xD0)
+#define MCP_16MHz_1000kBPS_CFG3 (0x82)
 
-#define MCP_16MHz_500kBPS_CFG1 (0x40)     /* Increased SJW       */
-#define MCP_16MHz_500kBPS_CFG2 (0xE5)
-#define MCP_16MHz_500kBPS_CFG3 (0x83)     /* Sample point at 75% */
+#define MCP_16MHz_500kBPS_CFG1 (0x00)
+#define MCP_16MHz_500kBPS_CFG2 (0xF0)
+#define MCP_16MHz_500kBPS_CFG3 (0x86)
 
 #define MCP_16MHz_250kBPS_CFG1 (0x41)
-#define MCP_16MHz_250kBPS_CFG2 (0xE5)
-#define MCP_16MHz_250kBPS_CFG3 (0x83)     /* Sample point at 75% */
+#define MCP_16MHz_250kBPS_CFG2 (0xF1)
+#define MCP_16MHz_250kBPS_CFG3 (0x85)
 
-#define MCP_16MHz_200kBPS_CFG1 (0x41)     /* Increased SJW       */
-#define MCP_16MHz_200kBPS_CFG2 (0xF6)
-#define MCP_16MHz_200kBPS_CFG3 (0x84)     /* Sample point at 75% */
+#define MCP_16MHz_200kBPS_CFG1 (0x01)
+#define MCP_16MHz_200kBPS_CFG2 (0xFA)
+#define MCP_16MHz_200kBPS_CFG3 (0x87)
 
-#define MCP_16MHz_125kBPS_CFG1 (0x43)     /* Increased SJW       */
-#define MCP_16MHz_125kBPS_CFG2 (0xE5)
-#define MCP_16MHz_125kBPS_CFG3 (0x83)     /* Sample point at 75% */
+#define MCP_16MHz_125kBPS_CFG1 (0x03)
+#define MCP_16MHz_125kBPS_CFG2 (0xF0)
+#define MCP_16MHz_125kBPS_CFG3 (0x86)
 
-#define MCP_16MHz_100kBPS_CFG1 (0x44)     /* Increased SJW       */
-#define MCP_16MHz_100kBPS_CFG2 (0xE5)
-#define MCP_16MHz_100kBPS_CFG3 (0x83)     /* Sample point at 75% */
+#define MCP_16MHz_100kBPS_CFG1 (0x03)
+#define MCP_16MHz_100kBPS_CFG2 (0xFA)
+#define MCP_16MHz_100kBPS_CFG3 (0x87)
 
-#define MCP_16MHz_80kBPS_CFG1 (0x44)      /* Increased SJW       */
-#define MCP_16MHz_80kBPS_CFG2 (0xF6)
-#define MCP_16MHz_80kBPS_CFG3 (0x84)      /* Sample point at 75% */
+#define MCP_16MHz_80kBPS_CFG1 (0x03)
+#define MCP_16MHz_80kBPS_CFG2 (0xFF)
+#define MCP_16MHz_80kBPS_CFG3 (0x87)
 
-#define MCP_16MHz_50kBPS_CFG1 (0x47)      /* Increased SJW       */
-#define MCP_16MHz_50kBPS_CFG2 (0xF6)
-#define MCP_16MHz_50kBPS_CFG3 (0x84)      /* Sample point at 75% */
+#define MCP_16MHz_50kBPS_CFG1 (0x07)
+#define MCP_16MHz_50kBPS_CFG2 (0xFA)
+#define MCP_16MHz_50kBPS_CFG3 (0x87)
 
-#define MCP_16MHz_40kBPS_CFG1 (0x49)      /* Increased SJW       */
-#define MCP_16MHz_40kBPS_CFG2 (0xF6)
-#define MCP_16MHz_40kBPS_CFG3 (0x84)      /* Sample point at 75% */
+#define MCP_16MHz_40kBPS_CFG1 (0x07)
+#define MCP_16MHz_40kBPS_CFG2 (0xFF)
+#define MCP_16MHz_40kBPS_CFG3 (0x87)
 
 #define MCP_16MHz_33k3BPS_CFG1 (0x4E)
-#define MCP_16MHz_33k3BPS_CFG2 (0xE5)
-#define MCP_16MHz_33k3BPS_CFG3 (0x83)     /* Sample point at 75% */
+#define MCP_16MHz_33k3BPS_CFG2 (0xF1)
+#define MCP_16MHz_33k3BPS_CFG3 (0x85)
 
-#define MCP_16MHz_20kBPS_CFG1 (0x53)      /* Increased SJW       */
-#define MCP_16MHz_20kBPS_CFG2 (0xF6)
-#define MCP_16MHz_20kBPS_CFG3 (0x84)      /* Sample point at 75% */
+#define MCP_16MHz_20kBPS_CFG1 (0x0F)
+#define MCP_16MHz_20kBPS_CFG2 (0xFF)
+#define MCP_16MHz_20kBPS_CFG3 (0x87)
 
-#define MCP_16MHz_10kBPS_CFG1 (0x67)      /* Increased SJW       */
-#define MCP_16MHz_10kBPS_CFG2 (0xF6)
-#define MCP_16MHz_10kBPS_CFG3 (0x84)      /* Sample point at 75% */
+#define MCP_16MHz_10kBPS_CFG1 (0x1F)
+#define MCP_16MHz_10kBPS_CFG2 (0xFF)
+#define MCP_16MHz_10kBPS_CFG3 (0x87)
 
 #define MCP_16MHz_5kBPS_CFG1 (0x3F)
 #define MCP_16MHz_5kBPS_CFG2 (0xFF)
-#define MCP_16MHz_5kBPS_CFG3 (0x87)       /* Sample point at 68% */
+#define MCP_16MHz_5kBPS_CFG3 (0x87)
 
 /*
  *  speed 20M
  */
 #define MCP_20MHz_1000kBPS_CFG1 (0x00)
 #define MCP_20MHz_1000kBPS_CFG2 (0xD9)
-#define MCP_20MHz_1000kBPS_CFG3 (0x82)     /* Sample point at 80% */
+#define MCP_20MHz_1000kBPS_CFG3 (0x82)
 
-#define MCP_20MHz_500kBPS_CFG1 (0x40)     /* Increased SJW       */
-#define MCP_20MHz_500kBPS_CFG2 (0xF6)
-#define MCP_20MHz_500kBPS_CFG3 (0x84)     /* Sample point at 75% */
+#define MCP_20MHz_500kBPS_CFG1 (0x00)
+#define MCP_20MHz_500kBPS_CFG2 (0xFA)
+#define MCP_20MHz_500kBPS_CFG3 (0x87)
 
-#define MCP_20MHz_250kBPS_CFG1 (0x41)     /* Increased SJW       */
-#define MCP_20MHz_250kBPS_CFG2 (0xF6)
-#define MCP_20MHz_250kBPS_CFG3 (0x84)     /* Sample point at 75% */
+#define MCP_20MHz_250kBPS_CFG1 (0x41)
+#define MCP_20MHz_250kBPS_CFG2 (0xFB)
+#define MCP_20MHz_250kBPS_CFG3 (0x86)
 
-#define MCP_20MHz_200kBPS_CFG1 (0x44)     /* Increased SJW       */
-#define MCP_20MHz_200kBPS_CFG2 (0xD3)
-#define MCP_20MHz_200kBPS_CFG3 (0x81)     /* Sample point at 80% */
+#define MCP_20MHz_200kBPS_CFG1 (0x01)
+#define MCP_20MHz_200kBPS_CFG2 (0xFF)
+#define MCP_20MHz_200kBPS_CFG3 (0x87)
 
-#define MCP_20MHz_125kBPS_CFG1 (0x44)     /* Increased SJW       */
-#define MCP_20MHz_125kBPS_CFG2 (0xE5)
-#define MCP_20MHz_125kBPS_CFG3 (0x83)     /* Sample point at 75% */
+#define MCP_20MHz_125kBPS_CFG1 (0x03)
+#define MCP_20MHz_125kBPS_CFG2 (0xFA)
+#define MCP_20MHz_125kBPS_CFG3 (0x87)
 
-#define MCP_20MHz_100kBPS_CFG1 (0x44)     /* Increased SJW       */
-#define MCP_20MHz_100kBPS_CFG2 (0xF6)
-#define MCP_20MHz_100kBPS_CFG3 (0x84)     /* Sample point at 75% */
+#define MCP_20MHz_100kBPS_CFG1 (0x04)
+#define MCP_20MHz_100kBPS_CFG2 (0xFA)
+#define MCP_20MHz_100kBPS_CFG3 (0x87)
 
-#define MCP_20MHz_80kBPS_CFG1 (0xC4)      /* Increased SJW       */
+#define MCP_20MHz_80kBPS_CFG1 (0x04)
 #define MCP_20MHz_80kBPS_CFG2 (0xFF)
-#define MCP_20MHz_80kBPS_CFG3 (0x87)      /* Sample point at 68% */
+#define MCP_20MHz_80kBPS_CFG3 (0x87)
 
-#define MCP_20MHz_50kBPS_CFG1 (0x49)      /* Increased SJW       */
-#define MCP_20MHz_50kBPS_CFG2 (0xF6)
-#define MCP_20MHz_50kBPS_CFG3 (0x84)      /* Sample point at 75% */
+#define MCP_20MHz_50kBPS_CFG1 (0x09)
+#define MCP_20MHz_50kBPS_CFG2 (0xFA)
+#define MCP_20MHz_50kBPS_CFG3 (0x87)
 
-#define MCP_20MHz_40kBPS_CFG1 (0x18)
-#define MCP_20MHz_40kBPS_CFG2 (0xD3)
-#define MCP_20MHz_40kBPS_CFG3 (0x81)      /* Sample point at 80% */
+#define MCP_20MHz_40kBPS_CFG1 (0x09)
+#define MCP_20MHz_40kBPS_CFG2 (0xFF)
+#define MCP_20MHz_40kBPS_CFG3 (0x87)
 
 
 #define MCPDEBUG        (0)
@@ -469,6 +461,10 @@
 #define CAN_FAIL       (0xff)
 
 #define CAN_MAX_CHAR_IN_MESSAGE (8)
+
+#define CAN_IS_EXTENDED       0x80000000
+#define CAN_IS_REMOTE_REQUEST 0x40000000
+#define CAN_EXTENDED_ID       0x1FFFFFFF
 
 #endif
 /*********************************************************************************************************
