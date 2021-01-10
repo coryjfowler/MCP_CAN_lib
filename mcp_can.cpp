@@ -1287,5 +1287,82 @@ INT8U MCP_CAN::getGPI(void)
 }
 
 /*********************************************************************************************************
+** Function name:           setupTX0Buf
+** Descriptions:            sets msg data into TX0 Buffer
+*********************************************************************************************************/
+void MCP_CAN::setupTX0Buf(INT32U id, INT8U len, INT8U *buf)
+{
+  uint16_t canid;
+  INT8U tbufdata[4];
+  canid = (uint16_t)(id & 0x0FFFF);
+  
+  SPI.beginTransaction(SPISettings(10000000, MSBFIRST, SPI_MODE0));
+  // LOAD TX BUFFER 0
+  MCP2515_SELECT();
+  spi_readwrite(MCP_LOAD_TX0);
+  if ((0x80000000 & id)==0x80000000) {
+    tbufdata[MCP_EID0] = (uint8_t) (canid & 0xFF);
+    tbufdata[MCP_EID8] = (uint8_t) (canid >> 8);
+    canid = (uint16_t)(id>>16);
+    tbufdata[MCP_SIDL] = (uint8_t) (canid & 0x03);
+    tbufdata[MCP_SIDL] += (uint8_t) ((canid & 0x0C) << 3);
+    tbufdata[MCP_SIDL] |= MCP_TXB_EXIDE_M;
+    tbufdata[MCP_SIDH] = (uint8_t) (canid >> 5);
+    for (int i=0;i<4;i++){
+      spi_readwrite(tbufdata[i]); 
+    }    
+  } else {
+    spi_readwrite(canid>>3);
+    spi_readwrite((canid & 0x07 ) << 5);
+    spi_read();
+    spi_read();
+  }
+  spi_readwrite(len);
+  for (int i=0;i<len;i++) {
+    spi_readwrite(buf[i]);
+  }
+  MCP2515_UNSELECT();
+  SPI.endTransaction();
+  delayMicroseconds(250);}
+
+/*********************************************************************************************************
+** Function name:           tx0RTS
+** Descriptions:            Sends CAN message directly using the TX0 buffer
+*********************************************************************************************************/
+INT8U MCP_CAN::tx0RTS()
+{
+  // READY TO SEND
+  SPI.beginTransaction(SPISettings(10000000, MSBFIRST, SPI_MODE0));
+  MCP2515_SELECT();
+  spi_readwrite(MCP_RTS_TX0);
+  MCP2515_UNSELECT();
+  SPI.endTransaction();
+  delayMicroseconds(250);
+  INT8U res;
+  INT8U idx = 0;
+  do {
+    idx++;
+    res = mcp2515_readStatus();
+    res = (res & 0x08)>>3;
+  } while ((!res) && (idx<TIMEOUTVALUE));
+  if (idx==TIMEOUTVALUE) {
+    //Serial.println("TIMEOUT");
+    return CANSENDTIMEOUT;
+  }
+  return CAN_OK;
+}
+
+/*********************************************************************************************************
+** Function name:           sendTX0
+** Descriptions:            Sends CAN message directly using the TX0 buffer
+*********************************************************************************************************/
+INT8U MCP_CAN::sendTX0(INT32U id, INT8U len, INT8U *buf)
+{
+  INT8U res;
+  setupTX0Buf(id,len,buf);
+  res = tx0RTS();
+}
+
+/*********************************************************************************************************
   END FILE
 *********************************************************************************************************/
