@@ -1296,7 +1296,7 @@ void MCP_CAN::setupTX0Buf(INT32U id, INT8U len, INT8U *buf)
   INT8U tbufdata[4];
   canid = (uint16_t)(id & 0x0FFFF);
   
-  SPI.beginTransaction(SPISettings(10000000, MSBFIRST, SPI_MODE0));
+  SPI.beginTransaction(SPISettings(8000000, MSBFIRST, SPI_MODE0));
   // LOAD TX BUFFER 0
   MCP2515_SELECT();
   spi_readwrite(MCP_LOAD_TX0);
@@ -1323,7 +1323,7 @@ void MCP_CAN::setupTX0Buf(INT32U id, INT8U len, INT8U *buf)
   }
   MCP2515_UNSELECT();
   SPI.endTransaction();
-  delayMicroseconds(100);
+  delayMicroseconds(150);
 }
 
 /*********************************************************************************************************
@@ -1333,7 +1333,7 @@ void MCP_CAN::setupTX0Buf(INT32U id, INT8U len, INT8U *buf)
 INT8U MCP_CAN::tx0RTS()
 {
   // READY TO SEND
-  SPI.beginTransaction(SPISettings(10000000, MSBFIRST, SPI_MODE0));
+  SPI.beginTransaction(SPISettings(8000000, MSBFIRST, SPI_MODE0));
   MCP2515_SELECT();
   spi_readwrite(MCP_RTS_TX0);
   MCP2515_UNSELECT();
