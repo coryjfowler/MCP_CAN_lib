@@ -37,7 +37,7 @@ void MCP_CAN::mcp2515_reset(void)
     spi_readwrite(MCP_RESET);
     MCP2515_UNSELECT();
     SPI.endTransaction();
-    delayMicroseconds(100);
+    delayMicroseconds(10);
 }
 
 /*********************************************************************************************************
@@ -1323,7 +1323,8 @@ void MCP_CAN::setupTX0Buf(INT32U id, INT8U len, INT8U *buf)
   }
   MCP2515_UNSELECT();
   SPI.endTransaction();
-  delayMicroseconds(250);}
+  delayMicroseconds(100);
+}
 
 /*********************************************************************************************************
 ** Function name:           tx0RTS
