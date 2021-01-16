@@ -93,7 +93,7 @@ class MCP_CAN
     void mcp2515_write_canMsg( const INT8U buffer_sidh_addr );          // Write CAN message
     void mcp2515_read_canMsg( const INT8U buffer_sidh_addr);            // Read CAN message
     INT8U mcp2515_getNextFreeTXBuf(INT8U *txbuf_n);                     // Find empty transmit buffer
-    void setupTX0Buf(INT32U id, INT8U len, INT8U *buf);                 // Set TX0 buffer directly
+    void setupTX0Buf(INT32U id, INT8U len, INT8U *buf, bool fastMode);  // Set TX0 buffer directly
     INT8U tx0RTS();                                                     // Set register to send TX0 buffer
 
 /*********************************************************************************************************
@@ -127,7 +127,7 @@ public:
     INT8U abortTX(void);                                                // Abort queued transmission(s)
     INT8U setGPO(INT8U data);                                           // Sets GPO
     INT8U getGPI(void);                                                 // Reads GPI
-    INT8U sendTX0(INT32U id, INT8U len, INT8U *buf);                    // Sends message directly using TX0
+    INT8U sendTX0(INT32U id, INT8U len, INT8U *buf, bool fastMode);     // Sends message directly using TX0
 };
 
 #endif
