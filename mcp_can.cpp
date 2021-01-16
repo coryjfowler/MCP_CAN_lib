@@ -1290,7 +1290,7 @@ INT8U MCP_CAN::getGPI(void)
 ** Function name:           setupTX0Buf
 ** Descriptions:            sets msg data into TX0 Buffer
 *********************************************************************************************************/
-void MCP_CAN::setupTX0Buf(INT32U id, INT8U len, INT8U *buf)
+void MCP_CAN::setupTX0Buf(INT32U id, INT8U len, INT8U *buf, boolean fastMode)
 {
   uint16_t canid;
   INT8U tbufdata[4];
@@ -1314,8 +1314,8 @@ void MCP_CAN::setupTX0Buf(INT32U id, INT8U len, INT8U *buf)
   } else {
     spi_readwrite(canid>>3);
     spi_readwrite((canid & 0x07 ) << 5);
-    spi_read();
-    spi_read();
+    spi_readwrite(0x0);
+    spi_readwrite(0x0);
   }
   spi_readwrite(len);
   for (int i=0;i<len;i++) {
@@ -1323,7 +1323,9 @@ void MCP_CAN::setupTX0Buf(INT32U id, INT8U len, INT8U *buf)
   }
   MCP2515_UNSELECT();
   SPI.endTransaction();
-  delayMicroseconds(150);
+  if (!fastMode) {
+    delayMicroseconds(150);
+  }
 }
 
 /*********************************************************************************************************
@@ -1345,11 +1347,13 @@ INT8U MCP_CAN::tx0RTS()
     idx++;
     res = mcp2515_readStatus();
     res = (res & 0x08)>>3;
-  } while ((!res) && (idx<TIMEOUTVALUE));
+    res = !res;
+  } while ((res) && (idx<TIMEOUTVALUE));
   if (idx==TIMEOUTVALUE) {
     //Serial.println("TIMEOUT");
     return CANSENDTIMEOUT;
   }
+  mcp2515_modifyRegister(MCP_CANINTF,0x04,0x00);
   return CAN_OK;
 }
 
@@ -1357,10 +1361,10 @@ INT8U MCP_CAN::tx0RTS()
 ** Function name:           sendTX0
 ** Descriptions:            Sends CAN message directly using the TX0 buffer
 *********************************************************************************************************/
-INT8U MCP_CAN::sendTX0(INT32U id, INT8U len, INT8U *buf)
+INT8U MCP_CAN::sendTX0(INT32U id, INT8U len, INT8U *buf, bool fastMode)
 {
   INT8U res;
-  setupTX0Buf(id,len,buf);
+  setupTX0Buf(id,len,buf,fastMode);
   res = tx0RTS();
   return res;
 }
