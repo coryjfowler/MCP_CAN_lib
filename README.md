@@ -1,5 +1,7 @@
 MCP_CAN Library for Arduino
 ==============
+[![Compile Examples](https://github.com/coryjfowler/MCP_CAN_lib/workflows/Compile%20Examples/badge.svg)](https://github.com/coryjfowler/MCP_CAN_lib/actions?workflow=Compile+Examples)
+
 MCP_CAN library v1.5
 This library is compatible with any shield or board that uses the MCP2515 or MCP25625 CAN protocol controller.
 
