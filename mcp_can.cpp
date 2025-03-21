@@ -1325,6 +1325,15 @@ INT8U MCP_CAN::getError(void)
 }
 
 /*********************************************************************************************************
+** Function name:           resetOverflowErrors
+** Descriptions:            Resets overflow error bits.
+*********************************************************************************************************/
+void MCP_CAN::resetOverflowErrors(void)
+{
+    mcp2515_modifyRegister(MCP_EFLG, MCP_EFLG_RX0OVR | MCP_EFLG_RX1OVR, 0);
+}
+
+/*********************************************************************************************************
 ** Function name:           mcp2515_errorCountRX
 ** Descriptions:            Returns REC register value
 *********************************************************************************************************/

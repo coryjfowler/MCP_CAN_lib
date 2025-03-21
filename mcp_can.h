@@ -123,6 +123,7 @@ public:
     INT8U checkReceive(void);                                           // Check for received data
     INT8U checkError(void);                                             // Check for errors
     INT8U getError(void);                                               // Check for errors
+    void resetOverflowErrors(void);                                     // Reset overflow error bits
     INT8U errorCountRX(void);                                           // Get error count
     INT8U errorCountTX(void);                                           // Get error count
     INT8U enOneShotTX(void);                                            // Enable one-shot transmission
